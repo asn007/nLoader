@@ -89,10 +89,9 @@ public static ProgressBar p;
 		}.start();
 	}
 	
-	@SuppressWarnings("unused")
 	public void loadGame(String user, String session) {
 		NLoader.frame.setVisible(false);
-		MinecraftLoader mc = new MinecraftLoader(user, session);
+		new MinecraftLoader(user, session);
 	
 	}
 	
@@ -101,7 +100,7 @@ public static ProgressBar p;
 	public boolean shouldUpdate() {
 		
 		String build = BaseProcedures.readFileAsString(BaseProcedures.getBinFolder()+ File.separator + "build", "0");
-		BaseLogger.write(build);
+		//BaseLogger.write(build); Used for debugging, now kinda useless
 		if(!build.equals(getGameBuild()) || NLoader.mustReinstall || !BaseProcedures.isClientCorrect()) return true;
 		else return false;
 	}

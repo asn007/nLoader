@@ -58,39 +58,43 @@ public class AppletLoader extends Applet implements Runnable, AppletStub,
 
 	@Override
 	public void init() {
+
 		if (this.mcApplet != null) {
 			this.mcApplet.init();
 			return;
 		}
-		init(getParameter("userName"), getParameter("sessionId"));
+
 	}
 
 	public void init(String userName, String sessionId) {
-		this.customParameters.put("userName", userName);
-		this.customParameters.put("sessionId", sessionId);
-
 		URLClassLoader cl = new URLClassLoader(this.urls);
 
 		System.setProperty("org.lwjgl.librarypath", this.binpath
 				+ File.separator + "natives");
 		System.setProperty("net.java.games.input.librarypath", this.binpath
 				+ File.separator + "natives");
+		BaseLogger.write("Loading minecraft applet...");
 		try {
 
 			Class<?> Mine = cl
 					.loadClass("net.minecraft.client.MinecraftApplet");
 			Applet applet = (Applet) Mine.newInstance();
-
-			this.mcApplet = applet;
+			BaseLogger.write("Success!");
+			BaseLogger.write("Setting applet size...");
 			applet.setStub(this);
 			applet.setSize(this.getWidth(), this.getHeight());
+			BaseLogger.write("Adding applet to canvas...");
+			this.mcApplet = applet;
 			setLayout(new BorderLayout());
-			add(applet, "Center");
-			applet.init();
+			add(mcApplet, "Center");
+			BaseLogger.write("Starting applet...");
+			init();
+			BaseLogger.write("Applet loaded!");
 			this.active = true;
 			validate();
 		} catch (Exception e) {
 			e.printStackTrace();
+			BaseLogger.write(e);
 		}
 	}
 

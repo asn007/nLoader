@@ -33,7 +33,7 @@ public class UnZipper {
 	                   byte data[] = new byte[BUFFER];  
 	                     
 
-	                   File newFile = new File(outFolder.getPath() + "/" + entry.getName());  
+	                   File newFile = new File(outFolder.getPath() + File.separator + entry.getName());  
 	                   Stack<File> pathStack = new Stack<File>();  
 	                   File newNevigate = newFile.getParentFile();  
 	                   while(newNevigate != null){  
@@ -52,7 +52,7 @@ public class UnZipper {
 	                              out.write(data,0,count);  
 	                         }  
 	                         this.cleanUp(out);
-	                       this.createFolder(new File(entry.getName()), true);  
+	                       //this.createFolder(new File(entry.getName()), true);  
 	                   }  
 	              }  
 	              this.cleanUp(in);  

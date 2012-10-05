@@ -26,84 +26,88 @@ public class MinecraftLoader extends JFrame {
 					.toURI().toURL();
 			urls[3] = new File(BaseProcedures.getBinFolder(), "lwjgl_util.jar")
 					.toURI().toURL();
+
+			final AppletLoader gameapplet = new AppletLoader(BaseProcedures
+					.getBinFolder().toString(), urls);
+			gameapplet.customParameters.put("username", u);
+			gameapplet.customParameters.put("sessionid", s);
+			gameapplet.customParameters.put("stand-alone", "true");
+			gameapplet.customParameters.put("demo", "false");
+
+			if (LauncherConf.autoConnect) {
+				gameapplet.customParameters
+						.put("server", LauncherConf.serverIP);
+				gameapplet.customParameters
+						.put("port", LauncherConf.serverPort);
+			}
+			this.addWindowListener(new WindowListener() {
+
+				@Override
+				public void windowOpened(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowClosing(WindowEvent e) {
+					BaseLogger.write("Stopping game and exiting...");
+					gameapplet.stop();
+					gameapplet.destroy();
+					System.exit(0);
+				}
+
+				@Override
+				public void windowClosed(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowIconified(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowDeiconified(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowActivated(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void windowDeactivated(WindowEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+			});
+			this.setTitle(LauncherConf.titleInGame);
+
+			this.setBounds(0, 0, 854, 480);
+			this.setLocationRelativeTo(null);
+
+			this.setLayout(new BorderLayout());
+			this.setBackground(Color.WHITE);
+			this.setIconImage(NLoader.frame.getIconImage());
+			this.add(gameapplet, "Center");
+			validate();
+			this.setVisible(true);
+			validate();
+			repaint();
+			gameapplet.init(u, s);
+			gameapplet.start();
+
+			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		} catch (Exception e) {
 			e.printStackTrace();
 			BaseLogger.write(e);
 			System.exit(0);
 		}
-
-		final AppletLoader gameapplet = new AppletLoader(BaseProcedures
-				.getBinFolder().toString(), urls);
-		gameapplet.customParameters.put("username", u);
-		gameapplet.customParameters.put("sessionid", s);
-		gameapplet.customParameters.put("stand-alone", "true");
-
-		if (LauncherConf.autoConnect) {
-			gameapplet.customParameters.put("server", LauncherConf.serverIP);
-			gameapplet.customParameters.put("port", LauncherConf.serverPort);
-		}
-		this.addWindowListener(new WindowListener() {
-
-			@Override
-			public void windowOpened(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowClosing(WindowEvent e) {
-				BaseLogger.write("Stopping game and exiting...");
-				gameapplet.stop();
-				gameapplet.destroy();
-				System.exit(0);
-			}
-
-			@Override
-			public void windowClosed(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowIconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowActivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-		});
-		this.setTitle(LauncherConf.titleInGame);
-
-		this.setBounds(0, 0, 640, 480);
-		this.setLocationRelativeTo(null);
-
-		this.setLayout(new BorderLayout());
-		this.setBackground(Color.WHITE);
-		this.setIconImage(NLoader.frame.getIconImage());
-		this.add(gameapplet, "Center");
-		validate();
-		this.setVisible(true);
-		gameapplet.init(u, s);
-		gameapplet.start();
-
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
 	}
 }

@@ -63,7 +63,7 @@
 <center><img src="https://dl.dropbox.com/u/47530254/nLoader/min/screen5.png" /></center>
 
 
-P.S - синие и черные полосы это не баг, это я криво отрезал -_-
+P.S - синие и черные полосы это не баг, это я криво отрезал<br />
 P.P.S. Приношу извинения за отсутсвие окна с надписью "Вход". Оно проезжает очень быстро и я не успеваю его заснять -_-
  
 <img src="https://dl.dropbox.com/u/47530254/separator.png" />
@@ -83,8 +83,8 @@ P.P.S. Приношу извинения за отсутсвие окна с н�
 <center>**Ссылки**</center>
 
 * Исходники под лицензией CC-BY-SA Share-Alike (3.0) (на гитхабе, как обычно :))
-* Архивы с нативными библиотеками: [для Linux]('http://dev.nextgen.su/demo/nloader-min/files/linux_natives.zip'), [для Windows]('http://dev.nextgen.su/demo/nloader-min/files/windows_natives.zip'), [для Mac]('http://dev.nextgen.su/demo/nloader-min/files/mac_natives.zip'), [для Solaris]('http://dev.nextgen.su/demo/nloader-min/files/sol_natives.zip')
-* [Демо]('http://dev.nextgen.su/demo/nloader-min/files/demo.jar') (используйте логин demo, пароль - demo)
+* Архивы с нативными библиотеками: <a href="http://dev.nextgen.su/demo/nloader-min/files/linux_natives.zip">для Linux</a>, <a href="http://dev.nextgen.su/demo/nloader-min/files/windows_natives.zip">для Windows</a>, <a href="http://dev.nextgen.su/demo/nloader-min/files/mac_natives.zip">для Mac</a>, <a href="http://dev.nextgen.su/demo/nloader-min/files/sol_natives.zip">для Solaris</a>
+* <a href="http://dev.nextgen.su/demo/nloader-min/files/build.jar">Демо</a> (используйте логин test, пароль - demo)
 
 <img src="https://dl.dropbox.com/u/47530254/separator.png" />
  

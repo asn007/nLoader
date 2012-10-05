@@ -3,14 +3,14 @@ package su.nextgen.dev.asn007.nloader.classes;
 public class LauncherConf {
 	
 	/**															Строковые переменные														**/
-	public static String minecraftDir = ".nextgen";
+	public static String minecraftDir = ".minecraft";
 	
 	public static String authURL = "http://dev.nextgen.su/demo/nloader-min/mcr/MineCraft/auth.php";
 	public static String updateSite = "http://dev.nextgen.su/demo/nloader-min/files/";
 	public static String defaultUsername = "nGuest";
 	public static String serverIP = "localhost";
 	public static String serverPort = "25565";
-	public static String launcherName = "nLoader 1.0";
+	public static String launcherName = "nLoader 1.0.1";
 	public static String launcherVersion = "13";
 	public static String newLauncherPage = "http://nextgen.su/nex-launcher.html";
 	public static String titleInGame = "NeXTGeN: nV";
