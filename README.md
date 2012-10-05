@@ -1,7 +1,7 @@
 ![Project Logo]
 ![separator]
- 
-              <CENTER> </CENTER>
+<blockquote> 
+<CENTER> </CENTER>
 <CENTER> </CENTER>
 <CENTER> </CENTER>
 <CENTER><SIZE=5>Предистория</SIZE></CENTER>
@@ -92,6 +92,7 @@
  
 <CENTER><SIZE=5><S>Скинуть денежек на блэкджек и шлюх мне можно так:</S></SIZE></CENTER>
 <CENTER><SIZE=5>Благодарности принимаю вот так:</SIZE></CENTER>
+</blockquote>
 [YAM] ЯД: 410011300532850
 [WMR] WMR: R232659102118
 [WMZ] WMZ: Z349178338532
