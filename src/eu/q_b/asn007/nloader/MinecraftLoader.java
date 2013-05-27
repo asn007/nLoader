@@ -1,4 +1,4 @@
-package su.nextgen.dev.asn007.nloader.classes;
+package eu.q_b.asn007.nloader;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +10,6 @@ import java.net.URL;
 import javax.swing.JFrame;
 
 public class MinecraftLoader extends JFrame {
-
 	private static final long serialVersionUID = -2287752224571892380L;
 
 	public MinecraftLoader(String u, String s) {
@@ -18,39 +17,35 @@ public class MinecraftLoader extends JFrame {
 		URL[] urls = new URL[4];
 
 		try {
-			urls[0] = new File(BaseProcedures.getBinFolder(), "minecraft.jar")
+			urls[0] = new File(BaseProcedures.getWorkingDirectory() + File.separator + "bin" + File.separator + "minecraft.jar").toURI().toURL();
+			urls[1] = new File(BaseProcedures.getWorkingDirectory()
+					+ File.separator + "bin" + File.separator, "lwjgl.jar")
 					.toURI().toURL();
-			urls[1] = new File(BaseProcedures.getBinFolder(), "lwjgl.jar")
+			urls[2] = new File(BaseProcedures.getWorkingDirectory()
+					+ File.separator + "bin" + File.separator, "jinput.jar")
 					.toURI().toURL();
-			urls[2] = new File(BaseProcedures.getBinFolder(), "jinput.jar")
-					.toURI().toURL();
-			urls[3] = new File(BaseProcedures.getBinFolder(), "lwjgl_util.jar")
+			urls[3] = new File(BaseProcedures.getWorkingDirectory()
+					
+					+ File.separator + "bin" + File.separator, "lwjgl_util.jar")
 					.toURI().toURL();
 
-			final AppletLoader gameapplet = new AppletLoader(BaseProcedures
-					.getBinFolder().toString(), urls);
+			final Launcher gameapplet = new Launcher(BaseProcedures.getWorkingDirectory()
+					+ File.separator + "bin" + File.separator, urls);
 			gameapplet.customParameters.put("username", u);
 			gameapplet.customParameters.put("sessionid", s);
 			gameapplet.customParameters.put("stand-alone", "true");
 			gameapplet.customParameters.put("demo", "false");
 
-			if (LauncherConf.autoConnect) {
-				gameapplet.customParameters
-						.put("server", LauncherConf.serverIP);
-				gameapplet.customParameters
-						.put("port", LauncherConf.serverPort);
-			}
 			this.addWindowListener(new WindowListener() {
 
 				@Override
 				public void windowOpened(WindowEvent e) {
-					// TODO Auto-generated method stub
 
 				}
 
 				@Override
 				public void windowClosing(WindowEvent e) {
-					BaseLogger.write("Stopping game and exiting...");
+					System.out.println("Stopping game and exiting...");
 					gameapplet.stop();
 					gameapplet.destroy();
 					System.exit(0);
@@ -58,55 +53,50 @@ public class MinecraftLoader extends JFrame {
 
 				@Override
 				public void windowClosed(WindowEvent e) {
-					// TODO Auto-generated method stub
 
 				}
 
 				@Override
 				public void windowIconified(WindowEvent e) {
-					// TODO Auto-generated method stub
 
 				}
 
 				@Override
 				public void windowDeiconified(WindowEvent e) {
-					// TODO Auto-generated method stub
 
 				}
 
 				@Override
 				public void windowActivated(WindowEvent e) {
-					// TODO Auto-generated method stub
 
 				}
 
 				@Override
 				public void windowDeactivated(WindowEvent e) {
-					// TODO Auto-generated method stub
 
 				}
 
 			});
-			this.setTitle(LauncherConf.titleInGame);
+			this.setTitle("Minecraft");
 
-			this.setBounds(0, 0, 854, 480);
+			this.setBounds(0, 0, 1000, 600);
 			this.setLocationRelativeTo(null);
 
 			this.setLayout(new BorderLayout());
 			this.setBackground(Color.WHITE);
-			this.setIconImage(NLoader.frame.getIconImage());
 			this.add(gameapplet, "Center");
+
 			validate();
 			this.setVisible(true);
 			validate();
 			repaint();
 			gameapplet.init(u, s);
 			gameapplet.start();
-
-			this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+			repaint();
+			Main._instance.primaryStage.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			BaseLogger.write(e);
+			System.out.println(e);
 			System.exit(0);
 		}
 	}

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ASCII"?>
+<anttasks:AntTask xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:anttasks="http://at.bestsolution.efxclipse.tooling.jdt/1.0" buildDirectory="${project}/build" cssToBin="true">
+  <deploy packagingFormat="all">
+    <application name="nLoader" mainclass="eu.q_b.asn007.nloader.Main" version="1.2" toolkit="fx"/>
+    <info vendor="q-b"/>
+  </deploy>
+  <signjar/>
+</anttasks:AntTask>

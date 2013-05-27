@@ -1,10 +1,8 @@
-package su.nextgen.dev.asn007.nloader.classes;
+package eu.q_b.asn007.nloader;
 
 import java.applet.Applet;
 import java.applet.AppletStub;
 import java.awt.BorderLayout;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -12,8 +10,7 @@ import java.net.URLClassLoader;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AppletLoader extends Applet implements Runnable, AppletStub,
-		MouseListener {
+public class Launcher extends Applet implements AppletStub {
 
 	private static final long serialVersionUID = 1L;
 	private Applet mcApplet = null;
@@ -23,37 +20,13 @@ public class AppletLoader extends Applet implements Runnable, AppletStub,
 	private URL[] urls;
 	private String binpath;
 
-	public AppletLoader(String binpath, URL[] urls) {
+	public Launcher(String binpath, URL[] urls) {
 		this.binpath = binpath;
 		this.urls = urls;
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent paramMouseEvent) {/**/
-	}
-
-	@Override
-	public void mousePressed(MouseEvent paramMouseEvent) {/**/
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent paramMouseEvent) {/**/
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent paramMouseEvent) {/**/
-	}
-
-	@Override
-	public void mouseExited(MouseEvent paramMouseEvent) {/**/
-	}
-
-	@Override
-	public void appletResize(int paramInt1, int paramInt2) {/**/
-	}
-
-	@Override
-	public void run() {/**/
+	public void appletResize(int paramInt1, int paramInt2) {
 	}
 
 	@Override
@@ -67,34 +40,35 @@ public class AppletLoader extends Applet implements Runnable, AppletStub,
 	}
 
 	public void init(String userName, String sessionId) {
+		@SuppressWarnings("resource")
 		URLClassLoader cl = new URLClassLoader(this.urls);
 
 		System.setProperty("org.lwjgl.librarypath", this.binpath
 				+ File.separator + "natives");
 		System.setProperty("net.java.games.input.librarypath", this.binpath
 				+ File.separator + "natives");
-		BaseLogger.write("Loading minecraft applet...");
+		System.out.println("Loading minecraft applet...");
 		try {
 
 			Class<?> Mine = cl
 					.loadClass("net.minecraft.client.MinecraftApplet");
 			Applet applet = (Applet) Mine.newInstance();
-			BaseLogger.write("Success!");
-			BaseLogger.write("Setting applet size...");
+			System.out.println("Success!");
+			System.out.println("Setting applet size...");
 			applet.setStub(this);
 			applet.setSize(this.getWidth(), this.getHeight());
-			BaseLogger.write("Adding applet to canvas...");
+			System.out.println("Adding applet to canvas...");
 			this.mcApplet = applet;
 			setLayout(new BorderLayout());
 			add(mcApplet, "Center");
-			BaseLogger.write("Starting applet...");
+			System.out.println("Starting applet...");
 			init();
-			BaseLogger.write("Applet loaded!");
+			System.out.println("Applet loaded!");
 			this.active = true;
 			validate();
 		} catch (Exception e) {
 			e.printStackTrace();
-			BaseLogger.write(e);
+			System.out.println(e);
 		}
 	}
 
@@ -117,6 +91,7 @@ public class AppletLoader extends Applet implements Runnable, AppletStub,
 			this.mcApplet.start();
 			return;
 		}
+
 	}
 
 	@Override
@@ -126,7 +101,7 @@ public class AppletLoader extends Applet implements Runnable, AppletStub,
 			try {
 				if (getAppletContext() != null)
 					context = 1;
-			} catch (Exception e) {/**/
+			} catch (Exception e) {
 			}
 		}
 		if (context == -1)
@@ -137,7 +112,7 @@ public class AppletLoader extends Applet implements Runnable, AppletStub,
 	@Override
 	public URL getDocumentBase() {
 		try {
-			return new URL("http://nextgen.su/play.html");
+			return new URL("http://minecraft.net/play");
 		} catch (MalformedURLException e) {
 
 		}
@@ -159,6 +134,19 @@ public class AppletLoader extends Applet implements Runnable, AppletStub,
 			this.mcApplet.destroy();
 			return;
 		}
+	}
+
+	public void replace(Applet paramApplet) {
+		this.mcApplet = paramApplet;
+		this.stop();
+		paramApplet.setStub(this);
+		paramApplet.setSize(getWidth(), getHeight());
+		setLayout(new BorderLayout());
+		add(paramApplet, "Center");
+		paramApplet.init();
+		this.active = true;
+		paramApplet.start();
+		validate();
 	}
 
 }

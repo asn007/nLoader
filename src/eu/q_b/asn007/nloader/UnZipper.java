@@ -1,4 +1,4 @@
-package su.nextgen.dev.asn007.nloader.classes;
+package eu.q_b.asn007.nloader;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -10,16 +10,14 @@ import java.util.Stack;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+
 public class UnZipper {
 	
-	 private final static int BUFFER = 10241024;  
-	    /** 
-	     * @param args 
-	     */  
+	 private final static int BUFFER = 10241024;
 	    
 	    public File recursiveUnzip(File inFile, File outFolder)  
 	    {  
-	        BaseLogger.write("Extracting archive: " + inFile.getName());
+	        BaseProcedures.log("Extracting archive: " + inFile.getName() + " to " + outFolder.getName(), this.getClass());
 	    	try  
 	         {  
 	              this.createFolder(outFolder, true);  
@@ -28,7 +26,7 @@ public class UnZipper {
 	              ZipEntry entry;  
 	              while((entry = in.getNextEntry()) != null)  
 	              {  
-	                   BaseLogger.write("Processing entry: " + entry);  
+	                   BaseProcedures.log("Processing entry: " + entry + ", extracting to " + outFolder.getPath() + File.separator + entry.getName() , this.getClass());  
 	                   int count;  
 	                   byte data[] = new byte[BUFFER];  
 	                     
@@ -52,7 +50,6 @@ public class UnZipper {
 	                              out.write(data,0,count);  
 	                         }  
 	                         this.cleanUp(out);
-	                       //this.createFolder(new File(entry.getName()), true);  
 	                   }  
 	              }  
 	              this.cleanUp(in);  
@@ -73,7 +70,7 @@ public class UnZipper {
 	            
 	           	if(item.exists() && item.getName().toLowerCase().endsWith(".zip"))
 	            {
-	            	BaseLogger.write("Processing entry: " + item.getName());
+	            	BaseProcedures.log("Processing entry: " + item.getName(), this.getClass());
 	                item.delete();   
 	            }  
 	        }  
@@ -90,7 +87,6 @@ public class UnZipper {
 	      
 	    private void cleanUp(InputStream in) throws Exception
 	    {
-	    
 	         in.close();  
 	    }  
 	      

@@ -1,0 +1,87 @@
+package eu.q_b.asn007.nloader
+
+import javafx.scene.Scene
+import javafx.scene.layout.*
+import eu.q_b.asn007.nloader.*
+import javafx.scene.control.*
+import eu.q_b.asn007.nloader.fx.*
+component MainScene controlledby ActionController styledwith["metro.css"] resourcefile "nloader.properties" {
+	Pane id th {
+		VBox {
+			alignment: "center",
+			Label {
+				text: rstring "nloader.window.main.title",
+				styleClass: "header"
+			},
+			HBox {
+				prefHeight: "30"
+			},
+			Label {
+				text: rstring "nloader.window.main.username"
+			}, 
+			HBox {
+				HBox {
+					prefWidth: "25"
+				},
+				TextField id loginField {
+					prefWidth: "250"
+				},
+				HBox {
+					prefWidth: "25"
+				}
+			},
+			HBox {
+				prefHeight: "10"
+			},
+			Label {
+				text: rstring "nloader.window.main.password"
+			}, 
+			HBox {
+				HBox {
+					prefWidth: "25"
+				},
+				PasswordField id passField {
+					prefWidth: "250"
+				},
+				HBox {
+					prefWidth: "25"
+				}
+			},
+			HBox {
+				prefHeight: "20"
+			},
+			/* TODO 
+			CheckBox id rememberMe {
+				text: rstring "nloader.window.main.remember"
+			},
+			HBox {
+				prefHeight: "20"
+			},
+			*/
+			Button {
+				text: rstring "nloader.window.main.go",
+				prefWidth: "200",
+				onAction: controllermethod doLogin
+			},
+			HBox {
+				prefHeight: "10"
+			},
+			Button {
+				text: rstring "nloader.window.main.settings",
+				prefWidth: "200",
+				onAction: controllermethod openSettings
+			},
+			HBox {
+				prefHeight: "90" /* TODO: Change it to 50 when I'll add a checkbox */
+			},
+			Label id downloadStatus {
+				text: rstring "nloader.window.main.verifying"
+			},
+			ProgressBar id progressBar {
+				progress: "-1",
+				prefWidth: "305"
+			}
+
+		}
+	}
+}
