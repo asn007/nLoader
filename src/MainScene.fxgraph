@@ -75,10 +75,10 @@ component MainScene controlledby ActionController styledwith["metro.css"] resour
 				prefHeight: "90" /* TODO: Change it to 50 when I'll add a checkbox */
 			},
 			Label id downloadStatus {
-				text: rstring "nloader.window.main.verifying"
+				text: rstring "nloader.window.main.waiting"
 			},
 			ProgressBar id progressBar {
-				progress: "-1",
+				progress: "0",
 				prefWidth: "305"
 			}
 

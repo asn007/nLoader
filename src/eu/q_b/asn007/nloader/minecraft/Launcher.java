@@ -1,4 +1,4 @@
-package eu.q_b.asn007.nloader;
+package eu.q_b.asn007.nloader.minecraft;
 
 import java.applet.Applet;
 import java.applet.AppletStub;

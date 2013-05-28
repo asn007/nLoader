@@ -25,7 +25,7 @@ public class SettingsController {
 	
 	@FXML
 	public void saveThisShit() {
-		BaseProcedures.writeString(memory.getText(), new File(BaseProcedures.getWorkingDirectory() + File.separator + "config"));
+		BaseProcedures.writeString(memory.getText(), new File(BaseProcedures.getWorkingDirectory() + File.separator + "configuration"));
 		Main._instance.forceUpdate = forceUpdate.isSelected();
 		URL uri = Main.class.getResource( "/MainScene.fxml" );
 		try {

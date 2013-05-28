@@ -18,16 +18,24 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.channels.FileChannel;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.LinkedList;
+import java.util.List;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+
+import eu.q_b.asn007.nloader.fx.*;
+import eu.q_b.asn007.nloader.helpers.*;
 
 public class BaseProcedures {
 
@@ -49,7 +57,7 @@ public class BaseProcedures {
 			String result;
 			while ((result = localBufferedReader.readLine()) != null)
 				sb.append(result + "\n");
-			return sb.toString();
+			return sb.toString().substring(0, sb.length() - 1); // Finally fixed this :3
 		} catch (Exception e) {
 			log("Error while running GET request! Returning empty string...",
 							BaseProcedures.class);
@@ -170,6 +178,21 @@ public class BaseProcedures {
 		return workDir;
 	}
 	
+	@SafeVarargs
+	public static <T> T[] concatAll(T[] first, T[]... rest) {
+		  int totalLength = first.length;
+		  for (T[] array : rest) {
+		    totalLength += array.length;
+		  }
+		  T[] result = Arrays.copyOf(first, totalLength);
+		  int offset = first.length;
+		  for (T[] array : rest) {
+		    System.arraycopy(array, 0, result, offset, array.length);
+		    offset += array.length;
+		  }
+		  return result;
+		}
+	
 	public static void recursiveDelete(File file) throws IOException {
 		if (!file.exists())
 			return;
@@ -223,11 +246,8 @@ public class BaseProcedures {
 	
 	public static String getMD5(File f) {
 		try {
-			return calculateHash(
-					MessageDigest.getInstance("MD5"), f.toString());
+			return calculateHash(MessageDigest.getInstance("MD5"), f.toString());
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			// e.printStackTrace();
 			return "";
 		}
 	}
@@ -339,5 +359,95 @@ public class BaseProcedures {
 				System.out.println(stack2string(e));
 			}
 		}
+
+		public static Object[] toArray(List<Object> url) {
+			Object[] arr = new Object[url.size()];
+			for(int i = 0; i < url.size(); i++) {
+				arr[i] = url.get(i);
+			}
+			return arr;
+		}
+
+		public static boolean isSpoutCraft() {
+			return LauncherConf.isSpoutCraft;
+			// TODO: add spoutcraft autodetection
+		}
+
+		public static ArrayList<String> getDirectoriesList() {
+			ArrayList<String> t = new ArrayList<String>();
+			String get = runGET(LauncherConf.downloadURL + "verifier.php", "act=dirs");
+			if(get == null || !get.contains("<br />")) {
+				Platform.runLater(new Runnable(){
+					public void run() {
+						new ModalWindow(Main.loc.getString("nloader.generic.oops"), Main.loc.getString("nloader.window.dirlist_failed"));
+						System.exit(0);						
+					}
+				});
+
+			} else {
+				String[] s = get.split("<br />");
+				for(String str: s) t.add(str);
+			}
+			
+			return t;
+		}
+		
+		public static List<File> addFiles(File dir) {
+			File[] list = dir.listFiles();
+			LinkedList<File> files = new LinkedList<File>();
+			for(File f: list) {
+				if(!f.isDirectory()) files.add(f);
+				else addFiles(f, files);
+			}
+		    return files;
+		}
+		
+		public static List<File> addFiles(File dir, List<File> t) {
+			File[] list = dir.listFiles();
+			for(File f: list) {
+				if(!f.isDirectory()) t.add(f);
+				else addFiles(f, t);
+			}
+		    return t;
+		}
+
+		public static List<Library> getLibraries() {
+			List<Library> list = new ArrayList<Library>();
+			File[] files = new File(BaseProcedures.getWorkingDirectory() + File.separator + "bin" + File.separator + "lib").listFiles();
+			for(File file: files) {
+				if(file.getName().endsWith(".jar")) list.add(new Library(file.getName().substring(0, file.getName().length() - 4)));
+			}
+			return list;
+		}
+
+		public static void copyFile(File sourceFile, File destFile) throws IOException {
+		    if(!destFile.exists()) {
+		        destFile.createNewFile();
+		    }
+
+		    FileChannel source = null;
+		    FileChannel destination = null;
+
+		    try {
+		        source = new FileInputStream(sourceFile).getChannel();
+		        destination = new FileOutputStream(destFile).getChannel();
+		        destination.transferFrom(source, 0, source.size());
+		    }
+		    finally {
+		        if(source != null) {
+		            source.close();
+		        }
+		        if(destination != null) {
+		            destination.close();
+		        }
+		    }
+		}
+
+		public static File getAssetsDirectory() {
+			return new File(getWorkingDirectory(), "assets");
+		}
+		
+		//TODO Do the clean-up
+		
 	
 }

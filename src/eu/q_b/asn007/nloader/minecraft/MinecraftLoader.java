@@ -1,4 +1,4 @@
-package eu.q_b.asn007.nloader;
+package eu.q_b.asn007.nloader.minecraft;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -9,10 +9,13 @@ import java.net.URL;
 
 import javax.swing.JFrame;
 
+import eu.q_b.asn007.nloader.BaseProcedures;
+
 public class MinecraftLoader extends JFrame {
 	private static final long serialVersionUID = -2287752224571892380L;
 
 	public MinecraftLoader(String u, String s) {
+
 
 		URL[] urls = new URL[4];
 
@@ -28,7 +31,7 @@ public class MinecraftLoader extends JFrame {
 					
 					+ File.separator + "bin" + File.separator, "lwjgl_util.jar")
 					.toURI().toURL();
-
+		
 			final Launcher gameapplet = new Launcher(BaseProcedures.getWorkingDirectory()
 					+ File.separator + "bin" + File.separator, urls);
 			gameapplet.customParameters.put("username", u);
@@ -77,6 +80,7 @@ public class MinecraftLoader extends JFrame {
 				}
 
 			});
+			
 			this.setTitle("Minecraft");
 
 			this.setBounds(0, 0, 1000, 600);
@@ -93,7 +97,6 @@ public class MinecraftLoader extends JFrame {
 			gameapplet.init(u, s);
 			gameapplet.start();
 			repaint();
-			Main._instance.primaryStage.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println(e);

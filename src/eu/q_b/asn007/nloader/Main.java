@@ -43,7 +43,7 @@ public class Main extends Application {
 			primaryStage.setHeight(400);
 			primaryStage.setResizable(false);
 			BaseProcedures.log("Starting client verifier & downloader thread...", Main.class);
-			((Thread) new ClientDownloaderThread()).start();
+			new ClientDownloaderThread().start();
 			BaseProcedures.log("Ready to go!", Main.class);
 			
 		} catch (IOException e) {BaseProcedures.log(BaseProcedures.stack2string(e), Main.class);}

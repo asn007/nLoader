@@ -38,7 +38,7 @@
 		<HBox prefHeight="10"/> 
 		<Button text="%nloader.window.main.settings" prefWidth="200" onAction="#openSettings"/> 
 		<HBox prefHeight="90"/> 
-		<Label fx:id="downloadStatus" text="%nloader.window.main.verifying"/> 
-		<ProgressBar fx:id="progressBar" progress="-1" prefWidth="305"/> 
+		<Label fx:id="downloadStatus" text="%nloader.window.main.waiting"/> 
+		<ProgressBar fx:id="progressBar" progress="0" prefWidth="305"/> 
 	</VBox>
 </Pane>

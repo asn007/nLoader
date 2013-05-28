@@ -55,7 +55,7 @@ public class ModalWindow {
 		((VBox)scene.getRoot()).getChildren().add(hb3);
 		
 		dialogStage.setScene(scene);
-		dialogStage.show();
+		dialogStage.showAndWait();
 	}
 
 }

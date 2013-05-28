@@ -14,7 +14,6 @@ import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import eu.q_b.asn007.nloader.fx.ModalWindow;
 import eu.q_b.asn007.nloader.fx.SceneUtils;
-
 public class ActionController {
 
 	@FXML private Node th;
@@ -42,21 +41,21 @@ public class ActionController {
 
 
 	@FXML public void doLogin() {
-		if(!Main._instance.launcherBusy) {
-		String user = loginField.getText();
-		String pass = passField.getText();
-		String result = BaseProcedures.runPOST(LauncherConf.authURL, "user=" + user + "&password=" + pass + "&version=" + LauncherConf.launcherVersion);
-		if(result==null) downloadStatus.setText("Could not connect to the server");
-		else if(result.equals("Bad login")) downloadStatus.setText(Main.loc.getString("nloader.window.main.badlogin"));
-		else if(result.equals("Old version")) downloadStatus.setText(Main.loc.getString("nloader.window.main.oldversion"));
-		else if(result.contains(":")) {
-			String[] arr = result.split(":");
-			
-			new MinecraftLoader(arr[2], arr[3]);
-		} else downloadStatus.setText(result);
-		} else {
-			new ModalWindow(Main.loc.getString("nloader.generic.oops"), Main.loc.getString("nloader.generic.bgwait"));
-		}
+		// TODO: Make it run in separate Thread
+				if(!Main._instance.launcherBusy) {
+					String user = loginField.getText();
+					String pass = passField.getText();
+					String result = BaseProcedures.runPOST(LauncherConf.authURL, "user=" + user + "&password=" + pass + "&version=" + LauncherConf.launcherVersion);
+					if(result==null) downloadStatus.setText("Could not connect to the server");
+					else if(result.equals("Bad login")) downloadStatus.setText(Main.loc.getString("nloader.window.main.badlogin"));
+					else if(result.equals("Old version")) downloadStatus.setText(Main.loc.getString("nloader.window.main.oldversion"));
+					else if(result.contains(":")) {
+						String[] arr = result.split(":");
+						new BasicMinecraftLoader(arr[2], arr[3]);
+						} else downloadStatus.setText(result);
+					} else {
+						new ModalWindow(Main.loc.getString("nloader.generic.oops"), Main.loc.getString("nloader.generic.bgwait"));
+					}
 	}
 	
 }
