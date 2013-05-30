@@ -61,7 +61,7 @@ public class SpoutcraftLoader extends JFrame implements WindowListener {
 		this.setVisible(true);
 		//TODO Incredibly hacky fix for grey screens due to Minecraft not making the resources directory.
 		//TODO Someone fix this better (or not, no harm as it just works)
-		new File(BaseProcedures.getWorkingDirectory(), "resources").mkdirs();
+		new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer), "resources").mkdirs();
 		minecraft.init();
 		minecraft.setSize(getWidth(), getHeight());
 		minecraft.start();

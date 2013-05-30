@@ -1,4 +1,4 @@
-package eu.q_b.asn007.nloader;
+package eu.q_b.asn007.nloader.skins;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -6,6 +6,11 @@ import java.io.File;
 import javafx.application.Platform;
 
 import javax.imageio.ImageIO;
+
+import eu.q_b.asn007.nloader.BaseProcedures;
+import eu.q_b.asn007.nloader.LauncherConf;
+import eu.q_b.asn007.nloader.Main;
+import eu.q_b.asn007.nloader.controllers.SkinController;
 
 public class SkinLoaderThread extends Thread {
 

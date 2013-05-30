@@ -1,7 +1,11 @@
-package eu.q_b.asn007.nloader;
+package eu.q_b.asn007.nloader.skins;
 
 import java.awt.Dimension;
 import java.io.File;
+
+import eu.q_b.asn007.nloader.BaseProcedures;
+import eu.q_b.asn007.nloader.LauncherConf;
+import eu.q_b.asn007.nloader.Main;
 
 import javafx.stage.FileChooser;
 

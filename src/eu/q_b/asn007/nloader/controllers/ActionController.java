@@ -1,4 +1,4 @@
-package eu.q_b.asn007.nloader;
+package eu.q_b.asn007.nloader.controllers;
 
 import java.io.IOException;
 import java.net.URL;
@@ -8,19 +8,29 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import eu.q_b.asn007.nloader.BaseProcedures;
+import eu.q_b.asn007.nloader.BasicMinecraftLoader;
+import eu.q_b.asn007.nloader.LauncherConf;
+import eu.q_b.asn007.nloader.Main;
 import eu.q_b.asn007.nloader.fx.ModalWindow;
 import eu.q_b.asn007.nloader.fx.SceneUtils;
+import eu.q_b.asn007.nloader.multiclient.GameServer;
+import eu.q_b.asn007.nloader.skins.SkinLoaderThread;
 public class ActionController {
 
 	@FXML private Node th;
 	@FXML public static Label downloadStatus;
 	@FXML public static ProgressBar progressBar;
-	@FXML TextField loginField;
-	@FXML PasswordField passField;
+	@FXML public static TextField loginField;
+	@FXML public static PasswordField passField;
+	@FXML public static CheckBox rememberMe;
+	@FXML public static ComboBox<GameServer> servers;
 	
 	@FXML
 	public void openSettings(ActionEvent evt) {
@@ -53,6 +63,11 @@ public class ActionController {
 						String[] arr = result.split(":");
 						Main.login = arr[2];
 						Main.session = arr[3];
+						if(rememberMe.isSelected()) {
+							Main._instance.config.addToConfig("login", loginField.getText());
+							Main._instance.config.addToConfig("pass", passField.getText());
+						}
+							
 						if(!LauncherConf.useSkins)
 							new BasicMinecraftLoader(arr[2], arr[3]);
 						else {
@@ -75,6 +90,11 @@ public class ActionController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} 
+	}
+
+
+	@FXML public void updateCombobox() {
+		Main._instance.currentServer = servers.getValue();
 	}
 	
 }

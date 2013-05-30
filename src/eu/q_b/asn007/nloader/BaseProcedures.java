@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -45,6 +46,7 @@ import javafx.scene.control.ProgressBar;
 
 import eu.q_b.asn007.nloader.fx.*;
 import eu.q_b.asn007.nloader.helpers.*;
+import eu.q_b.asn007.nloader.multiclient.*;
 
 public class BaseProcedures {
 
@@ -92,6 +94,28 @@ public class BaseProcedures {
 		return result;
 	}
 	
+	
+	public static String readString(DataInputStream par0DataInputStream,
+			int par1) throws IOException {
+		short var2 = par0DataInputStream.readShort();
+
+		if (var2 > par1) {
+			throw new IOException(
+					"Received string length longer than maximum allowed ("
+							+ var2 + " > " + par1 + ")");
+		} else if (var2 < 0) {
+			throw new IOException(
+					"Received string length is less than zero! Weird string!");
+		} else {
+			StringBuilder var3 = new StringBuilder();
+
+			for (int var4 = 0; var4 < var2; ++var4) {
+				var3.append(par0DataInputStream.readChar());
+			}
+
+			return var3.toString();
+		}
+	}
 	
 	public static String runPOST(String URL, String param) {
 
@@ -495,7 +519,7 @@ public class BaseProcedures {
 
 		public static List<Library> getLibraries() {
 			List<Library> list = new ArrayList<Library>();
-			File[] files = new File(BaseProcedures.getWorkingDirectory() + File.separator + "bin" + File.separator + "lib").listFiles();
+			File[] files = new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer) + File.separator + "bin" + File.separator + "lib").listFiles();
 			for(File file: files) {
 				if(file.getName().endsWith(".jar")) list.add(new Library(file.getName().substring(0, file.getName().length() - 4)));
 			}
@@ -587,6 +611,12 @@ public class BaseProcedures {
 		}
 		
 
+		public static File getWorkingDirectoryFor(GameServer gs) {
+			File wDir = new File(BaseProcedures.getWorkingDirectory() + File.separator + gs.getServiceName());
+			if(!wDir.exists()) wDir.mkdirs();
+			return wDir;
+		}
+		
 		//TODO Do the clean-up
 		
 	

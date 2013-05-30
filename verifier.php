@@ -1,33 +1,33 @@
 <?php
-$dir = "client/";
+$dir = "clients/";
 switch ($_GET['act']) {
 	case 'list':
-		printSums();
+		printSums($_GET['client']);
 	break;
 	case 'verify':
 		$file = $_GET['file'];
 		$hash = $_GET['hash'];
-		if(!file_exists($dir.$file) || $hash != md5_file($dir.$file)) echo "no";
+		if(!file_exists($dir.$_GET['client'].'/'.$file) || $hash != md5_file($dir.$_GET['client'].'/'.$file)) echo "no";
 		else echo "ok";
 	break;
 	case 'dirs':
-		printDirs();
+		printDirs($_GET['client']);
 	break;
 }
 
-function printDirs() {
+function printDirs($cli) {
 	global $dir;
-	foreach(glob($dir.'*', GLOB_ONLYDIR) as $directory) {
-  		echo str_replace($dir, '', $directory).'<br />';
+	foreach(glob($dir.$cli.'/*', GLOB_ONLYDIR) as $directory) {
+  		echo str_replace($dir.$cli.'/', '', $directory).'<br />';
 	}  
 }
 
-function printSums() {
+function printSums($cli) {
 	global $dir;
-	$arr = directoryToArray($dir, true);
+	$arr = directoryToArray($dir.$cli.'/', true);
 	sort($arr, SORT_NATURAL);
 	$val = "";
-	foreach($arr as $file) $val.=str_replace($dir, '', $file)."<::::>".md5_file($file)."<br />";
+	foreach($arr as $file) $val.=str_replace($dir.$cli.'/', '', $file)."<::::>".md5_file($file)."<br />";
 	$val = str_lreplace("<br />", "", $val);
 	echo $val;
 	/*

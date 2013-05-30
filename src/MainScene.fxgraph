@@ -3,7 +3,10 @@ package eu.q_b.asn007.nloader
 import javafx.scene.Scene
 import javafx.scene.layout.*
 import eu.q_b.asn007.nloader.*
+import eu.q_b.asn007.nloader.controllers.*
 import javafx.scene.control.*
+import javafx.collections.*
+import eu.q_b.asn007.nloader.multiclient.*
 component MainScene controlledby ActionController styledwith["metro.css"] resourcefile "nloader.properties" {
 	VBox id th {
 		alignment: "center",
@@ -30,16 +33,24 @@ component MainScene controlledby ActionController styledwith["metro.css"] resour
 				maxWidth: "250"
 		},
 		HBox {
+			prefHeight: "10"
+		},
+		Label {
+			text: rstring "nloader.window.main.chooseserver"
+		},
+		ComboBox id servers {
+			prefWidth: "250",
+			onAction: controllermethod updateCombobox
+		},
+		HBox {
 			prefHeight: "20"
 		},
-		/* TODO 
 		CheckBox id rememberMe {
 			text: rstring "nloader.window.main.remember"
 		},
 		HBox {
 			prefHeight: "20"
 		},
-		*/
 		Button {
 			text: rstring "nloader.window.main.login",
 			prefWidth: "200",
@@ -54,7 +65,7 @@ component MainScene controlledby ActionController styledwith["metro.css"] resour
 			onAction: controllermethod openSettings
 		},
 		HBox {
-			prefHeight: "170" /* TODO: Change it to 130 when I'll add a checkbox */
+			prefHeight: "75" /* TODO: Change it to 65 when I'll add a checkbox */
 		},
 		Label id downloadStatus {
 			text: rstring "nloader.window.main.waiting"

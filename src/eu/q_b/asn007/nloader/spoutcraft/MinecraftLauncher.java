@@ -11,7 +11,7 @@ public class MinecraftLauncher {
 	private static MinecraftClassLoader loader = null;
 	public static MinecraftClassLoader getClassLoader(List<Library> libraries) {
 		if (loader == null) {
-			File mcBinFolder = new File(BaseProcedures.getWorkingDirectory(), "bin");
+			File mcBinFolder = new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer), "bin");
 
 			File spoutcraftJar = new File(mcBinFolder, "spoutcraft.jar");
 			File minecraftJar = new File(mcBinFolder, "minecraft.jar");
@@ -49,7 +49,7 @@ public class MinecraftLauncher {
 
 	@SuppressWarnings("rawtypes")
 	public static Applet getMinecraftApplet(List<Library> libraries)  {
-		File mcBinFolder = new File(BaseProcedures.getWorkingDirectory(), "bin");
+		File mcBinFolder = new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer), "bin");
 
 		try {
 			ClassLoader classLoader = getClassLoader(libraries);

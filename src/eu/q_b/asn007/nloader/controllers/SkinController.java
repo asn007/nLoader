@@ -1,9 +1,12 @@
-package eu.q_b.asn007.nloader;
+package eu.q_b.asn007.nloader.controllers;
 
+import eu.q_b.asn007.nloader.BasicMinecraftLoader;
+import eu.q_b.asn007.nloader.Main;
 import eu.q_b.asn007.nloader.fx.ModalWindow;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
 import javafx.scene.control.ProgressIndicator;
+import eu.q_b.asn007.nloader.skins.*;
 
 public class SkinController {
 

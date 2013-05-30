@@ -10,6 +10,7 @@ import java.net.URL;
 import javax.swing.JFrame;
 
 import eu.q_b.asn007.nloader.BaseProcedures;
+import eu.q_b.asn007.nloader.Main;
 
 public class MinecraftLoader extends JFrame {
 	private static final long serialVersionUID = -2287752224571892380L;
@@ -20,19 +21,19 @@ public class MinecraftLoader extends JFrame {
 		URL[] urls = new URL[4];
 
 		try {
-			urls[0] = new File(BaseProcedures.getWorkingDirectory() + File.separator + "bin" + File.separator + "minecraft.jar").toURI().toURL();
-			urls[1] = new File(BaseProcedures.getWorkingDirectory()
+			urls[0] = new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer) + File.separator + "bin" + File.separator + "minecraft.jar").toURI().toURL();
+			urls[1] = new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer)
 					+ File.separator + "bin" + File.separator, "lwjgl.jar")
 					.toURI().toURL();
-			urls[2] = new File(BaseProcedures.getWorkingDirectory()
+			urls[2] = new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer)
 					+ File.separator + "bin" + File.separator, "jinput.jar")
 					.toURI().toURL();
-			urls[3] = new File(BaseProcedures.getWorkingDirectory()
+			urls[3] = new File(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer)
 					
 					+ File.separator + "bin" + File.separator, "lwjgl_util.jar")
 					.toURI().toURL();
 		
-			final Launcher gameapplet = new Launcher(BaseProcedures.getWorkingDirectory()
+			final Launcher gameapplet = new Launcher(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer)
 					+ File.separator + "bin" + File.separator, urls);
 			gameapplet.customParameters.put("username", u);
 			gameapplet.customParameters.put("sessionid", s);
