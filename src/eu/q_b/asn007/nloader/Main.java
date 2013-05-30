@@ -21,6 +21,8 @@ public class Main extends Application {
     
     public static final ResourceBundle loc = ResourceBundle.getBundle("nloader");
 	public static Main _instance;
+	public static String session;
+	public static String login;
 	public Stage primaryStage;
 	
 	public boolean forceUpdate = false;
@@ -40,8 +42,9 @@ public class Main extends Application {
 			primaryStage.setScene(new Scene(p));
 			primaryStage.show();
 			primaryStage.setWidth(305);
-			primaryStage.setHeight(400);
+			primaryStage.setHeight(480);
 			primaryStage.setResizable(false);
+			primaryStage.setTitle(loc.getString("nloader.window.main.title"));
 			BaseProcedures.log("Starting client verifier & downloader thread...", Main.class);
 			new ClientDownloaderThread().start();
 			BaseProcedures.log("Ready to go!", Main.class);
@@ -54,6 +57,6 @@ public class Main extends Application {
 		BaseProcedures.log("*** nLoader ***", Main.class);
 		launch(args);
 		System.setProperty("minecraft.applet.WrapperClass",
-				"eu.q_b.asn007.nloader.Launcher"); // Fuck Forge
+				"eu.q_b.asn007.nloader.minecraft.Launcher"); // Fuck Forge
 	}
 }

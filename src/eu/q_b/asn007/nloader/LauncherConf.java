@@ -8,9 +8,12 @@ public class LauncherConf {
 	public static final String downloadURL = "http://minecraft.q-b.eu/mc/"; // Don't forget '/' on the end!
 	public static final String authURL = "http://minecraft.q-b.eu/MineCraft/auth.php";
 	
-	public static final boolean useRootZip = false;
+	public static final boolean useSkins = true;
+	
 	public static final String launcherVersion = "13";
-	public static final boolean isSpoutCraft = true;
+	public static final String skinURLScript = "http://minecraft.q-b.eu/mc/skin.php";
+	
+	public static boolean isSpoutCraft = false;
 
 	
 	

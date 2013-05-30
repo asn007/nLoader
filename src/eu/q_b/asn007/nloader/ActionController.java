@@ -25,7 +25,7 @@ public class ActionController {
 	@FXML
 	public void openSettings(ActionEvent evt) {
 		if(!Main._instance.launcherBusy) {
-		URL uri = Main.class.getResource( "/Settings.fxml" );
+		URL uri = Main.class.getResource( "/SettingsScene.fxml" );
 		try {
 			Parent p = FXMLLoader.load( uri, Main.loc );
 			p.getStylesheets().add("/metro.css");
@@ -51,11 +51,30 @@ public class ActionController {
 					else if(result.equals("Old version")) downloadStatus.setText(Main.loc.getString("nloader.window.main.oldversion"));
 					else if(result.contains(":")) {
 						String[] arr = result.split(":");
-						new BasicMinecraftLoader(arr[2], arr[3]);
-						} else downloadStatus.setText(result);
+						Main.login = arr[2];
+						Main.session = arr[3];
+						if(!LauncherConf.useSkins)
+							new BasicMinecraftLoader(arr[2], arr[3]);
+						else {
+							doSkinScene();
+						}
+					} else downloadStatus.setText(result);
 					} else {
 						new ModalWindow(Main.loc.getString("nloader.generic.oops"), Main.loc.getString("nloader.generic.bgwait"));
 					}
+	}
+
+
+	private void doSkinScene() {
+		URL uri = Main.class.getResource( "/SkinScene.fxml" );
+		try {
+			Parent p = FXMLLoader.load(uri, Main.loc);
+			p.getStylesheets().add("/metro.css");
+			SceneUtils.changeScene(500, th, p);
+			new SkinLoaderThread(Main.login).start();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
 	}
 	
 }

@@ -1,0 +1,44 @@
+package eu.q_b.asn007.nloader
+
+import javafx.scene.Scene
+import javafx.scene.layout.*
+import eu.q_b.asn007.nloader.*
+import javafx.scene.control.*
+component Settings controlledby SettingsController styledwith["metro.css"] resourcefile "nloader.properties" {
+	VBox id th {
+		alignment: "center",
+		Label {
+			text: rstring "nloader.window.settings.title",
+			styleClass: "header"
+		},
+		HBox {
+			prefHeight: "30"
+		},
+		Label {
+			text: rstring "nloader.window.settings.memory.title"
+		}, 
+		TextField id memory {
+				maxWidth: "250",
+				text: rstring "nloader.window.settings.memory.default"
+		},
+		HBox {
+			prefHeight: "20"
+		},
+		CheckBox id forceUpdate {
+			text: rstring "nloader.window.settings.forceupdate"
+		},
+		HBox {
+			prefHeight: "20"
+		},
+		Button {
+			text: rstring "nloader.window.settings.save",
+			prefWidth: "200",
+			onAction: controllermethod saveThisShit
+		},
+		/* Quick-and-dirty-fix */
+		HBox {
+			prefWidth: "305",
+			prefHeight: "1"
+		}
+	}
+}

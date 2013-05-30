@@ -1,5 +1,8 @@
 package eu.q_b.asn007.nloader;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -27,8 +30,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Formatter;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import javax.imageio.ImageIO;
+import javax.imageio.ImageReader;
+import javax.imageio.stream.FileImageInputStream;
+import javax.imageio.stream.ImageInputStream;
 
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -57,6 +66,7 @@ public class BaseProcedures {
 			String result;
 			while ((result = localBufferedReader.readLine()) != null)
 				sb.append(result + "\n");
+			if(sb.toString().length() <= 0) return sb.toString();
 			return sb.toString().substring(0, sb.length() - 1); // Finally fixed this :3
 		} catch (Exception e) {
 			log("Error while running GET request! Returning empty string...",
@@ -65,9 +75,24 @@ public class BaseProcedures {
 					BaseProcedures.class);
 			return "";
 		}
-
 	}
 
+	public static BufferedImage buildSkinImage(BufferedImage skin) {
+		BufferedImage result = new BufferedImage(128, 256, 2);
+		Graphics2D g = (Graphics2D)result.getGraphics();
+		int w = skin.getWidth() / 64;
+		int h = skin.getHeight()/ 32;
+		g.drawImage(skin.getSubimage(w * 8,  h * 8,  w * 8, h * 8 ), 32, 0,   64, 64, null);
+		g.drawImage(skin.getSubimage(w * 20, h * 20, w * 8, h * 12), 32, 64,  64, 96, null);
+		g.drawImage(skin.getSubimage(w * 44, h * 20, w * 4, h * 12), 0 , 64,  32, 96, null);
+		g.drawImage(skin.getSubimage(w * 44, h * 20, w * 4, h * 12), 96, 64,  32, 96, null);
+		g.drawImage(skin.getSubimage(w * 4,  h * 20, w * 4, h * 12), 32, 160, 32, 96, null);
+		g.drawImage(skin.getSubimage(w * 4,  h * 20, w * 4, h * 12), 64, 160, 32, 96, null);
+		g.drawImage(skin.getSubimage(w * 40, h * 8,  w * 8, h * 8 ), 32, 0,   64, 64, null);
+		return result;
+	}
+	
+	
 	public static String runPOST(String URL, String param) {
 
 		HttpURLConnection connection = null;
@@ -108,13 +133,70 @@ public class BaseProcedures {
 		}
 	}
 	
+	public static String runPostFile(URL url, File f, String param) throws Exception  {
+		String lineEnd = "\r\n"; 
+		String twoHyphens = "--"; 
+		String boundary =  "*****"; 
+		int bytesRead, bytesAvailable, bufferSize; 
+		byte[] buffer; 
+		int maxBufferSize = 1*1024*1024; 
+		FileInputStream fis = new FileInputStream(f);
+		URLConnection conn = (HttpURLConnection) url.openConnection(); 
+		conn.setDoInput(true); 
+		conn.setDoOutput(true);  
+		conn.setUseCaches(false);  
+		conn.setRequestProperty("Connection", "Keep-Alive"); 
+		conn.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary); 
+
+		DataOutputStream dos = new DataOutputStream( conn.getOutputStream() ); 
+
+		// Send parameters
+		if(param.contains("=")) {
+			for(String s: param.split("&")) {
+				dos.writeBytes(twoHyphens + boundary + lineEnd);
+				dos.writeBytes("Content-Disposition: form-data; name=\"" + s.split("=")[0] + "\"" + lineEnd + lineEnd);
+				dos.writeBytes(s.split("=")[1] + lineEnd);
+			}
+		}
+
+		// Send a binary file
+		dos.writeBytes(twoHyphens + boundary + lineEnd); 
+		dos.writeBytes("Content-Disposition: form-data; name=\"skin\";filename=\"" + f.getName() +"\"" + lineEnd); 
+		dos.writeBytes(lineEnd); 
+		bytesAvailable = fis.available(); 
+		bufferSize = Math.min(bytesAvailable, maxBufferSize); 
+		buffer = new byte[bufferSize]; 
+		bytesRead = fis.read(buffer, 0, bufferSize); 
+		while (bytesRead > 0) { 
+		 dos.write(buffer, 0, bufferSize); 
+		 bytesAvailable = fis.available(); 
+		 bufferSize = Math.min(bytesAvailable, maxBufferSize); 
+		 bytesRead = fis.read(buffer, 0, bufferSize); 
+		} 
+		dos.writeBytes(lineEnd); 
+		dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd); 
+		dos.flush(); // Flush the buffers to ensure everything was delivered to the server
+		/* Done writing data, start reading */
+		InputStream is = conn.getInputStream();
+		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
+
+		StringBuffer response = new StringBuffer();
+		String line;
+		while ((line = rd.readLine()) != null) {
+			response.append(line);
+		}
+		String str1 = response.toString();		
+		rd.close();
+		fis.close(); 
+		dos.close();
+		return str1;
+	}
+	
+	
 	public static void setupLogger(File logFile) {
 		try {
-			if(!logFile.exists()) {
-				//logFile.mkdirs();
-				logFile.createNewFile();
-			}
-			if(readFileAsString(logFile.toString(), "").split("\n").length >= 500 /*To make logs more readable.. Approx. 5-7 launches*/) {
+			if(!logFile.exists()) logFile.createNewFile();
+			if(readFileAsString(logFile.toString(), "").split("\n").length >= 500 /* To make logs more readable.. Approx. 5-7 launches */) {
 				logFile.delete();
 				logFile.createNewFile();
 			}
@@ -446,7 +528,65 @@ public class BaseProcedures {
 		public static File getAssetsDirectory() {
 			return new File(getWorkingDirectory(), "assets");
 		}
+
+		public static void download(URL url, File file) throws Exception {
+			file.mkdirs();
+			file.delete();
+			file.createNewFile();
+			URLConnection connection = url.openConnection();
+			final long down = connection.getContentLength();
+			long downm = file.length();
+			if (downm != down) {
+				HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				BufferedInputStream bis = new BufferedInputStream(
+						conn.getInputStream());
+				FileOutputStream fw = new FileOutputStream(file);
+				byte[] b = new byte[1024];
+				int count = 0;
+				while ((count = bis.read(b)) != -1)
+					fw.write(b, 0, count);				
+				fw.close();
+			}
+		}
+
+		// Really quick implementation. Much faster than all those ImageIO.read() solutions
 		
+		public static Dimension getImageDimension(final String path) {
+		    Dimension result = null;
+		    String suffix = getFileSuffix(path);
+		    Iterator<ImageReader> iter = ImageIO.getImageReadersBySuffix(suffix);
+		    if (iter.hasNext()) {
+		        ImageReader reader = iter.next();
+		        try {
+		            ImageInputStream stream = new FileImageInputStream(new File(path));
+		            reader.setInput(stream);
+		            int width = reader.getWidth(reader.getMinIndex());
+		            int height = reader.getHeight(reader.getMinIndex());
+		            result = new Dimension(width, height);
+		        } catch (IOException e) {
+		            log("Failed to read an image!", BaseProcedures.class);
+		        } finally {
+		            reader.dispose();
+		        }
+		    }
+		    return result;
+		}
+		
+		public static String getFileSuffix(final String path) {
+		    String result = null;
+		    if (path != null) {
+		        result = "";
+		        if (path.lastIndexOf('.') != -1) {
+		            result = path.substring(path.lastIndexOf('.'));
+		            if (result.startsWith(".")) {
+		                result = result.substring(1);
+		            }
+		        }
+		    }
+		    return result;
+		}
+		
+
 		//TODO Do the clean-up
 		
 	

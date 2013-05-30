@@ -1,10 +1,24 @@
 /*
     Document   : JMetroLightTheme
     Created on : Oct 16, 2012, 6:28:59 PM
-    Author     : Pedro Duque Vieira
+    Author     : Pedro Duque Vieira, modified by: asn007
     Description:
         Light Metro style sheet for use in JavaFX applications
 */
+
+.loading {
+	/*
+	-fx-background-image:url("/eu/q_b/asn007/nloader/res/301.png");
+	-fx-background-position:center;
+	-fx-background-repeat:repeat;
+	-fx-background-color:#000;
+	*  */
+	
+}
+ 
+ .progress-indicator {
+ 	-fx-progress-color:#ccc;
+ }
  
  .progress-bar {
  	-fx-background-color:white;

@@ -1,0 +1,55 @@
+package eu.q_b.asn007.nloader
+
+import javafx.scene.Scene
+import javafx.scene.layout.*
+import eu.q_b.asn007.nloader.*
+import javafx.scene.control.*
+
+component SkinScene controlledby SkinController styledwith["metro.css"] resourcefile "nloader.properties" {
+	VBox id th {
+		alignment: "center",
+		Label {
+			styleClass: "header",
+			text: rstring "nloader.window.skin.title"
+		},
+		HBox {
+				prefHeight: "30"
+		}, 
+		VBox {
+			alignment: "center",
+			HBox {
+				alignment: "center",
+				VBox id skinView {
+					alignment: "center",
+					prefWidth:"128",
+					prefHeight: "256",
+					ProgressIndicator id loadingSkin {
+						prefWidth: "64",
+						prefHeight: "64"
+					}
+				}
+			},
+			HBox {
+				prefHeight: "20"
+			}, 
+			Button {
+				text: rstring "nloader.window.skin.change",
+				prefWidth: "200",
+				onAction: controllermethod doChangeSkin
+			},
+			HBox {
+				prefHeight: "10"
+			}, 
+			Button {
+				text: rstring "nloader.window.main.go",
+				prefWidth: "200",
+				onAction: controllermethod doLaunch
+			},
+			/* Quick-and-dirty-fix */
+			HBox {
+				prefWidth: "305",
+				prefHeight: "1"
+			}
+		}
+	}
+}
