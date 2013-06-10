@@ -12,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import eu.q_b.asn007.nloader.minecraft.Launcher;
 import eu.q_b.asn007.nloader.multiclient.GameServer;
 import eu.q_b.asn007.nloader.multiclient.LoadingServer;
 import eu.q_b.asn007.nloader.controllers.ActionController;
@@ -46,7 +47,8 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		BaseProcedures.log("Initializing...", Main.class);
 		System.setProperty("minecraft.applet.WrapperClass",
-				"eu.q_b.asn007.nloader.minecraft.Launcher"); // Fuck Forge
+				Launcher.class.getCanonicalName()); // Fuck Forge
+		
 		_instance = this;
 		config = new NLoaderConfiguration(new File(BaseProcedures.getWorkingDirectory() + File.separator + LauncherConf.nloaderConfiguration));
 		URL    uri = Main.class.getResource( "/MainScene.fxml" );

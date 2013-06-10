@@ -34,7 +34,7 @@ public class MinecraftLoader extends JFrame {
 					.toURI().toURL();
 		
 			final Launcher gameapplet = new Launcher(BaseProcedures.getWorkingDirectoryFor(Main._instance.currentServer)
-					+ File.separator + "bin" + File.separator, urls);
+					+ File.separator + "bin" + File.separator, urls, this);
 			gameapplet.customParameters.put("username", u);
 			gameapplet.customParameters.put("sessionid", s);
 			gameapplet.customParameters.put("stand-alone", "true");

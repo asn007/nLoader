@@ -3,6 +3,7 @@ package eu.q_b.asn007.nloader.minecraft;
 import java.applet.Applet;
 import java.applet.AppletStub;
 import java.awt.BorderLayout;
+import java.awt.Container;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -19,10 +20,12 @@ public class Launcher extends Applet implements AppletStub {
 	private boolean active = false;
 	private URL[] urls;
 	private String binpath;
-
-	public Launcher(String binpath, URL[] urls) {
+	private Container parent;
+	
+	public Launcher(String binpath, URL[] urls, MinecraftLoader minecraftLoader) {
 		this.binpath = binpath;
 		this.urls = urls;
+		this.parent = minecraftLoader;
 	}
 
 	@Override
@@ -32,7 +35,7 @@ public class Launcher extends Applet implements AppletStub {
 	@Override
 	public void init() {
 
-		if (this.mcApplet != null) {
+		if (this.mcApplet != null && this.parent != null) {
 			this.mcApplet.init();
 			return;
 		}

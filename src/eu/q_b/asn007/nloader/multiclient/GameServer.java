@@ -7,7 +7,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import eu.q_b.asn007.nloader.*;
 
-public class GameServer extends BasicGameServer {
+public class GameServer  {
 
 	private String name;
 	private String address;

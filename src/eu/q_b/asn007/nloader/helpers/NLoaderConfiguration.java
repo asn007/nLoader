@@ -42,4 +42,9 @@ public class NLoaderConfiguration {
 		return properties.get(key);
 	}
 	
+	public boolean getBoolean(String key) {
+		if(getString(key).equals("true")) return true;
+		return false;
+	}
+	
 }
