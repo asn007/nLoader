@@ -46,7 +46,7 @@ public class GameServer  {
 	public String getOnlineString() {
 		try {
 			String[] online = getOnline();
-			if(online == null || online[1].equals("0")) throw new Exception("Server is offline!");
+			if(online == null || online[1] == null || online[1].equals("0")) throw new Exception("Server is offline!");
 			else return this.name + " (" + online[0] + "/" + online[1] + ")";
 		} catch(Exception ex) {
 			return this.name + " (сервер отключен)";
@@ -59,39 +59,67 @@ public class GameServer  {
 	}
 	
 	public String[] getOnline() throws Exception {
-		try {
-			Socket var3 = null;
-			DataInputStream var4 = null;
-			DataOutputStream var5 = null;
+		Socket var2 = null;
+        DataInputStream var3 = null;
+        DataOutputStream var4 = null;
+        try {
+            var2 = new Socket();
+            var2.setSoTimeout(3000);
+            var2.setTcpNoDelay(true);
+            var2.setTrafficClass(18);
+            var2.connect(new InetSocketAddress(this.address.split(":")[0], Integer.parseInt(this.address.split(":")[1])), 3000);
+            var3 = new DataInputStream(var2.getInputStream());
+            var4 = new DataOutputStream(var2.getOutputStream());
+            var4.write(254);
+            var4.write(1);
+            if (var3.read() != 255) {
+                throw new IOException("Bad message");
+            }
+            String var5 = BaseProcedures.readString(var3, 256);
+            char[] var6 = var5.toCharArray();
+            var5 = new String(var6);
+            String[] var26;
+            if (var5.startsWith("\u00a7") && var5.length() > 1) {
+                var26 = var5.substring(1).split("\u0000");
+                //System.out.println(var26[0]);
+                  // System.out.println("MOTD: " + var26[3]);
+                   //System.out.println("PROTOCOL: " + var26[1]);
+                    //System.out.println("Game version: " + var26[2]);
+                    //var8 = Integer.parseInt(var26[4]);
+                    //var9 = Integer.parseInt(var26[5]);
+                    //System.out.println(var26[4] + "/" + var26[5]);
+                return new String[] { var26[4], var26[5]};
+            }
+            else {
+                var26 = var5.split("\u00a7");
+                var5 = var26[0];
+                try {
+                    return new String[] {var26[1], var26[2]};
+                }
+                catch (Exception var24) {
+                    return new String[] { "0", "0" };
+                }
+            }
+        }
+        finally {
+            try {
+                if (var3 != null) {
+                    var3.close();
+                }
+            } catch (Throwable var23) {}
+            try {
+                if (var4 != null) {
+                    var4.close();
+                }
+            }
+            catch (Throwable var22) {}
+            try {
+                if (var2 != null) {
+                    var2.close();
+                }
+            } catch (Throwable var21) {}
+        }
 
-			var3 = new Socket();
-			var3.setSoTimeout(3000);
-			var3.setTcpNoDelay(true);
-			var3.setTrafficClass(18);
-			var3.connect(new InetSocketAddress(this.address.split(":")[0], Integer.parseInt(this.address.split(":")[1])),
-					3000);
-			var4 = new DataInputStream(var3.getInputStream());
-			var5 = new DataOutputStream(var3.getOutputStream());
-			var5.write(254);
-
-			if (var4.read() != 255) {
-				var3.close();
-				throw new IOException("Bad message");
-			}
-
-			String var6 = BaseProcedures.readString(var4, 256);
-			char[] var7 = var6.toCharArray();
-			var6 = new String(var7);
-			String[] var27 = var6.split("\u00a7");
-			var6 = var27[0];
-
-			int var9 = Integer.parseInt(var27[1]);
-			int var10 = Integer.parseInt(var27[2]);
-			var3.close();
-			return new String[] { var9 + "", var10 + "" };
-		} catch (Exception e) {
-			throw new Exception("Failed to get server online!");
-		}
 
 	}
 

@@ -71,6 +71,7 @@ public class Main extends Application {
 			primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/eu/q_b/asn007/nloader/res/images/icon.png")));
 			ActionController.loginField.setText(config.getString("login"));
 			ActionController.passField.setText(config.getString("pass"));
+			ActionController.rememberMe.setSelected(!config.getString("login").equals("")); 
 			BaseProcedures.log("Starting client verifier & downloader thread...", Main.class);
 			ls = new LoadingServer();
 			ActionController.servers.getItems().add(ls);

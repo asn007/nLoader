@@ -646,6 +646,17 @@ public class BaseProcedures {
 			
 			return System.getProperty("java.home") + File.separator + "bin" + File.separator + "java" + ((BaseProcedures.getPlatform() == OS.windows) ? ".exe" : "");
 		}
+
+		public static String getMyJarName() {
+			// TODO Auto-generated method stub
+			try {
+				return new File(BaseProcedures.class.getProtectionDomain().getCodeSource().getLocation().toURI()).toString();
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return BaseProcedures.getWorkingDirectory() + File.separator + "launcher.jar";
+			}
+		}
 		
 	
 }

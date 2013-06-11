@@ -22,6 +22,7 @@ import eu.q_b.asn007.nloader.fx.ModalWindow;
 import eu.q_b.asn007.nloader.fx.SceneUtils;
 import eu.q_b.asn007.nloader.multiclient.GameServer;
 import eu.q_b.asn007.nloader.skins.SkinLoaderThread;
+import eu.q_b.asn007.nloader.threading.LauncherUpdaterThread;
 public class ActionController {
 
 	@FXML private static Node th;
@@ -59,7 +60,13 @@ public class ActionController {
 					String result = BaseProcedures.runPOST(LauncherConf.authURL, "user=" + user + "&password=" + pass + "&version=" + LauncherConf.launcherVersion);
 					if(result==null) downloadStatus.setText("Could not connect to the server");
 					else if(result.equals("Bad login")) downloadStatus.setText(Main.loc.getString("nloader.window.main.badlogin"));
-					else if(result.equals("Old version")) downloadStatus.setText(Main.loc.getString("nloader.window.main.oldversion"));
+					else if(result.equals("Old version")) {
+						downloadStatus.setText(Main.loc.getString("nloader.window.main.oldversion"));
+						if(LauncherConf.autoUpdate) {
+							downloadStatus.setText(Main.loc.getString("nloader.window.main.autoupdate"));
+							new LauncherUpdaterThread().start();
+						}
+					}
 					else if(result.contains(":")) {
 						String[] arr = result.split(":");
 						Main.login = arr[2];

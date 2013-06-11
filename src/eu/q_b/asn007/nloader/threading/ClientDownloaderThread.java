@@ -2,6 +2,7 @@ package eu.q_b.asn007.nloader.threading;
 
 import java.io.File;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ClientDownloaderThread extends Thread {
 	}
 	
 	public void run() {
+		try {
 		Platform.runLater(new Runnable(){
 			public void run() {
 				ActionController.downloadStatus.setText(Main.loc.getString("nloader.window.main.verifying"));
@@ -39,7 +41,7 @@ public class ClientDownloaderThread extends Thread {
 			if(tmp.exists()){
 				List<File> files = BaseProcedures.addFiles(tmp);
 				for(File f: files) {
-					String s = BaseProcedures.runGET(LauncherConf.downloadURL + "verifier.php", "act=verify&file=" + RelativePathMaker.getRelativePath(BaseProcedures.getWorkingDirectoryFor(gs), f).replace(File.separator, "/") + "&hash=" + BaseProcedures.getMD5(f) + "&client=" + gs.getServiceName());
+					String s = BaseProcedures.runGET(LauncherConf.downloadURL + "verifier.php", "act=verify&file=" + URLEncoder.encode(RelativePathMaker.getRelativePath(BaseProcedures.getWorkingDirectoryFor(gs), f).replace(File.separator, "/"), "UTF-8") + "&hash=" + BaseProcedures.getMD5(f) + "&client=" + gs.getServiceName());
 					if(Main._instance.forceUpdate) f.delete();
 					else if(s == null) f.delete();
 					else if(s.contains("no")) f.delete();
@@ -74,5 +76,8 @@ public class ClientDownloaderThread extends Thread {
 		});
 		System.gc();
 		Main._instance.launcherBusy = false;
+		} catch(Exception e) {
+			BaseProcedures.log(BaseProcedures.stack2string(e), this.getClass());
+		}
 	}
 }

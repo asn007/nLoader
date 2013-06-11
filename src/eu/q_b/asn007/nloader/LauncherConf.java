@@ -25,4 +25,7 @@ public class LauncherConf {
 
 	public static final boolean commandLaunch = true; // WARNING: BETA AND UNTESTED, SET TO TRUE ONLY WHEN YOUR CLIENT REFUSES TO LAUNCH, OTHERWISE SET TO FALSE (Can't be used with Spoutcraft)
 	
+	public static final boolean autoUpdate = true;
+	public static final String baseFileURL = "http://minecraft.q-b.eu/mc/updater/latest"; // Without ".jar" or ".exe"
+	
 }
