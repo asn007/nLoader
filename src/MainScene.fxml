@@ -34,7 +34,10 @@
 	<Button text="%nloader.window.main.login" prefWidth="200" onAction="#doLogin"/> 
 	<HBox prefHeight="10"/> 
 	<Button text="%nloader.window.main.settings" prefWidth="200" onAction="#openSettings"/> 
-	<HBox prefHeight="75"/> 
+	<HBox prefHeight="45"/> 
+	<HBox alignment="center_right"> 
+		<Label fx:id="music" onMouseClicked="#switchMusicState" prefHeight="30" prefWidth="30"/> 
+	</HBox>
 	<Label fx:id="downloadStatus" text="%nloader.window.main.waiting"/> 
 	<ProgressBar fx:id="progressBar" progress="0" prefWidth="305"/> 
 </VBox>

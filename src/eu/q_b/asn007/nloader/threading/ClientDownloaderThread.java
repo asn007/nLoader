@@ -32,7 +32,7 @@ public class ClientDownloaderThread extends Thread {
 		});
 		for(GameServer gs: Main._instance.servers) {
 		BaseProcedures.log("Building directories list...", getClass());
-		ArrayList<String> dirs = BaseProcedures.getDirectoriesList();
+		ArrayList<String> dirs = BaseProcedures.getDirectoriesList(gs);
 		BaseProcedures.log("Checking files...", getClass());
 		for(String str: dirs) {
 			File tmp = new File(BaseProcedures.getWorkingDirectoryFor(gs) + File.separator + str);

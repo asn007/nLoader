@@ -6,6 +6,23 @@
         Light Metro style sheet for use in JavaFX applications
 */
 
+#music .true {
+	-fx-background-image: url("./eu/q_b/asn007/nloader/res/images/music_on.png");
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+}
+
+#music .nothing {
+	-fx-background-image: url("");
+}
+
+#music .false {
+	-fx-background-image: url("./eu/q_b/asn007/nloader/res/images/music_off.png");
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+}
+
+
 .loading {
 	/*
 	-fx-background-image:url("/eu/q_b/asn007/nloader/res/301.png");

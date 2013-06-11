@@ -90,10 +90,10 @@ public class MinecraftLoader extends JFrame {
 			this.setLayout(new BorderLayout());
 			this.setBackground(Color.WHITE);
 			this.add(gameapplet, "Center");
+			//this.setContentPane(gameapplet);
 
 			validate();
 			this.setVisible(true);
-			validate();
 			repaint();
 			gameapplet.init(u, s);
 			gameapplet.start();

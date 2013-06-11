@@ -24,7 +24,7 @@ public class NLoaderConfiguration {
 		for(String keyValuePair: split) properties.put(keyValuePair.split(":", 2)[0], keyValuePair.split(":", 2)[1]);
 	}
 	
-	public void addToConfig(String key, String value) {
+	private void addToConfig(String key, String value) {
 		if(properties.get(key) != null) properties.remove(key);
 		properties.put(key, value);
 		saveConfig();
@@ -38,13 +38,39 @@ public class NLoaderConfiguration {
 	}
 	
 	public String getString(String key) {
-		if(properties.get(key) == null) return "";
+		return getString(key, "");
+	}
+
+	public String getString(String key, String def) {
+		if(properties.get(key) == null) return def;
 		return properties.get(key);
 	}
 	
-	public boolean getBoolean(String key) {
-		if(getString(key).equals("true")) return true;
-		return false;
+	public void setString(String key, String value) {
+		addToConfig(key, value);
 	}
 	
+	public Boolean getBoolean(String key) {
+		return Boolean.parseBoolean(getString(key));
+	}
+	
+	public void setBoolean(String key, Boolean value) {
+		addToConfig(key, value.toString());
+	}
+	
+	public Integer getInteger(String key) {
+		return getInteger(key, 0);
+	}
+	
+	public Integer getInteger(String key, Integer def) {
+		try {
+			return Integer.parseInt(getString(key));
+		} catch(NumberFormatException ex) {
+			return def;
+		}
+	}
+	
+	public void setInteger(String key, Integer value) {
+		addToConfig(key, value.toString());
+	}
 }

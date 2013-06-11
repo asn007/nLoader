@@ -65,7 +65,15 @@ component MainScene controlledby ActionController styledwith["metro.css"] resour
 			onAction: controllermethod openSettings
 		},
 		HBox {
-			prefHeight: "75" /* TODO: Change it to 65 when I'll add a checkbox */
+			prefHeight: "45"
+		},
+		HBox {
+			alignment: "center_right",
+			Label id music {
+				onMouseClicked: controllermethod switchMusicState,
+				prefHeight: "30",
+				prefWidth: "30"
+			}
 		},
 		Label id downloadStatus {
 			text: rstring "nloader.window.main.waiting"

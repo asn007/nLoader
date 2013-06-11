@@ -17,7 +17,12 @@ public class LauncherConf {
 	public static final String serverXMLURL = "http://minecraft.q-b.eu/mc/servers.xml";
 	
 	public static boolean isSpoutCraft = false;
+	public static String songFileName = "bg.mp3";
 	
-	public static String nloaderConfiguration = "nLoader.conf";
+	public static final String nloaderConfiguration = "nLoader.conf";
+	public static final boolean useMusic = true;
+	public static final boolean loopMusic = true;
 
+	public static final boolean commandLaunch = true; // WARNING: BETA AND UNTESTED, SET TO TRUE ONLY WHEN YOUR CLIENT REFUSES TO LAUNCH, OTHERWISE SET TO FALSE (Can't be used with Spoutcraft)
+	
 }

@@ -24,13 +24,14 @@ import eu.q_b.asn007.nloader.multiclient.GameServer;
 import eu.q_b.asn007.nloader.skins.SkinLoaderThread;
 public class ActionController {
 
-	@FXML private Node th;
+	@FXML private static Node th;
 	@FXML public static Label downloadStatus;
 	@FXML public static ProgressBar progressBar;
 	@FXML public static TextField loginField;
 	@FXML public static PasswordField passField;
 	@FXML public static CheckBox rememberMe;
 	@FXML public static ComboBox<GameServer> servers;
+	@FXML public static Label music;
 	
 	@FXML
 	public void openSettings(ActionEvent evt) {
@@ -64,8 +65,8 @@ public class ActionController {
 						Main.login = arr[2];
 						Main.session = arr[3];
 						if(rememberMe.isSelected()) {
-							Main._instance.config.addToConfig("login", loginField.getText());
-							Main._instance.config.addToConfig("pass", passField.getText());
+							Main._instance.config.setString("login", loginField.getText());
+							Main._instance.config.setString("pass", passField.getText());
 						}
 							
 						if(!LauncherConf.useSkins)
@@ -95,6 +96,28 @@ public class ActionController {
 
 	@FXML public void updateCombobox() {
 		Main._instance.currentServer = servers.getValue();
+	}
+
+
+	@FXML public void switchMusicState() {
+		if(Main._instance.playing && LauncherConf.useMusic) {
+			Main._instance.player.pause();
+			Main._instance.config.setBoolean("musicenabled", false);
+			Main._instance.playing = false;
+			music.getStyleClass().add("false");
+			music.getStyleClass().remove("true");
+		} else if(LauncherConf.useMusic) {
+			Main._instance.player.play();
+			Main._instance.config.setBoolean("musicenabled", true);
+			Main._instance.playing = true;
+			music.getStyleClass().remove("false");
+			music.getStyleClass().add("true");
+		}
+	}
+
+
+	public static void removeMusicButton() {
+		music.getStyleClass().add("nothing");
 	}
 	
 }

@@ -29,6 +29,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Formatter;
 import java.util.Iterator;
@@ -69,7 +70,7 @@ public class BaseProcedures {
 			while ((result = localBufferedReader.readLine()) != null)
 				sb.append(result + "\n");
 			if(sb.toString().length() <= 0) return sb.toString();
-			return sb.toString().substring(0, sb.length() - 1); // Finally fixed this :3
+			return sb.toString().substring(0, sb.length() - 1); 
 		} catch (Exception e) {
 			log("Error while running GET request! Returning empty string...",
 							BaseProcedures.class);
@@ -174,7 +175,7 @@ public class BaseProcedures {
 
 		DataOutputStream dos = new DataOutputStream( conn.getOutputStream() ); 
 
-		// Send parameters
+		
 		if(param.contains("=")) {
 			for(String s: param.split("&")) {
 				dos.writeBytes(twoHyphens + boundary + lineEnd);
@@ -183,7 +184,7 @@ public class BaseProcedures {
 			}
 		}
 
-		// Send a binary file
+		
 		dos.writeBytes(twoHyphens + boundary + lineEnd); 
 		dos.writeBytes("Content-Disposition: form-data; name=\"skin\";filename=\"" + f.getName() +"\"" + lineEnd); 
 		dos.writeBytes(lineEnd); 
@@ -199,8 +200,8 @@ public class BaseProcedures {
 		} 
 		dos.writeBytes(lineEnd); 
 		dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd); 
-		dos.flush(); // Flush the buffers to ensure everything was delivered to the server
-		/* Done writing data, start reading */
+		dos.flush(); 
+		
 		InputStream is = conn.getInputStream();
 		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 
@@ -220,7 +221,7 @@ public class BaseProcedures {
 	public static void setupLogger(File logFile) {
 		try {
 			if(!logFile.exists()) logFile.createNewFile();
-			if(readFileAsString(logFile.toString(), "").split("\n").length >= 500 /* To make logs more readable.. Approx. 5-7 launches */) {
+			if(readFileAsString(logFile.toString(), "").split("\n").length >= 2000 ) {
 				logFile.delete();
 				logFile.createNewFile();
 			}
@@ -377,7 +378,7 @@ public class BaseProcedures {
 		for (byte b : hash) {
 			formatter.format("%02x", b);
 		}
-		// formatter.close();
+		
 		return formatter.toString();
 	}
 
@@ -476,12 +477,12 @@ public class BaseProcedures {
 
 		public static boolean isSpoutCraft() {
 			return LauncherConf.isSpoutCraft;
-			// TODO: add spoutcraft autodetection
+			
 		}
 
-		public static ArrayList<String> getDirectoriesList() {
+		public static ArrayList<String> getDirectoriesList(GameServer gs) {
 			ArrayList<String> t = new ArrayList<String>();
-			String get = runGET(LauncherConf.downloadURL + "verifier.php", "act=dirs");
+			String get = runGET(LauncherConf.downloadURL + "verifier.php", "act=dirs&client=" + gs.getServiceName());
 			if(get == null || !get.contains("<br />")) {
 				Platform.runLater(new Runnable(){
 					public void run() {
@@ -573,7 +574,7 @@ public class BaseProcedures {
 			}
 		}
 
-		// Really quick implementation. Much faster than all those ImageIO.read() solutions
+		
 		
 		public static Dimension getImageDimension(final String path) {
 		    Dimension result = null;
@@ -617,7 +618,34 @@ public class BaseProcedures {
 			return wDir;
 		}
 		
-		//TODO Do the clean-up
+
+		public static Collection<File> getClassPath(GameServer gs) {
+		    Collection<File> result = new ArrayList<File>();
+		    Collection<Library> libraries = getMinecraftLibraries(gs);
+		     for (Library library : libraries) {
+		         result.add(new File(library.getLibraryFile(true, gs)));
+		     }	 
+		     result.add(new File(BaseProcedures.getWorkingDirectoryFor(gs) + File.separator + "bin" + File.separator + "minecraft.jar"));
+		     return result;
+		   }
+		
+			     
+		
+		
+
+		public static Collection<Library> getMinecraftLibraries(GameServer gs) {
+			ArrayList<Library> libs = new ArrayList<Library>();
+			String[] libnames = new String[] {"lwjgl", "jinput", "lwjgl_util"};
+			for(String str: libnames) {
+				libs.add(new Library(str));
+			}
+			return libs;
+		}
+
+		public static String getJavaExecutable() {
+			
+			return System.getProperty("java.home") + File.separator + "bin" + File.separator + "java" + ((BaseProcedures.getPlatform() == OS.windows) ? ".exe" : "");
+		}
 		
 	
 }

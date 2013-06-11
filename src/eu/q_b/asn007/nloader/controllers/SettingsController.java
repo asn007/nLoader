@@ -26,7 +26,7 @@ public class SettingsController {
 	
 	@FXML
 	public void saveThisShit() {
-		Main._instance.config.addToConfig("memory", memory.getText());
+		Main._instance.config.setString("memory", memory.getText());
 		Main._instance.forceUpdate = forceUpdate.isSelected();
 		URL uri = Main.class.getResource( "/MainScene.fxml" );
 		try {
