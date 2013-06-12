@@ -1,7 +1,6 @@
 package eu.q_b.asn007.nloader.controllers;
 
 import java.io.IOException;
-import java.net.URL;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,6 +10,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import eu.q_b.asn007.nloader.Main;
 import eu.q_b.asn007.nloader.fx.SceneUtils;
+import eu.q_b.asn007.nloader.theming.ThemeLoader;
 import eu.q_b.asn007.nloader.threading.InitBackgroundWorkerThread;
 
 public class SettingsController {
@@ -28,12 +28,12 @@ public class SettingsController {
 	public void saveThisShit() {
 		Main._instance.config.setString("memory", memory.getText());
 		Main._instance.forceUpdate = forceUpdate.isSelected();
-		URL uri = Main.class.getResource( "/MainScene.fxml" );
 		try {
-			Parent p = FXMLLoader.load( uri, Main.loc );
-			p.getStylesheets().add("/metro.css");
+			Parent p = FXMLLoader.load(ThemeLoader.getFXMLFromTheme(Main.theme, "MainScene"), Main.loc );
+			p.getStylesheets().add(ThemeLoader.getStyleSheetFromTheme(Main.theme));
 			ActionController.loginField.setText(Main._instance.config.getString("login"));
 			ActionController.passField.setText(Main._instance.config.getString("pass"));
+			ActionController.rememberMe.setSelected(!Main._instance.config.getString("login").equals("")); 
 			SceneUtils.changeScene(500, th, p);
 			new InitBackgroundWorkerThread(Main._instance.forceUpdate).start();
 		} catch (IOException e) {

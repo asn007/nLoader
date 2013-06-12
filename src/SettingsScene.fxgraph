@@ -5,8 +5,9 @@ import javafx.scene.layout.*
 import eu.q_b.asn007.nloader.*
 import eu.q_b.asn007.nloader.controllers.*
 import javafx.scene.control.*
-component Settings controlledby SettingsController styledwith["metro.css"] resourcefile "nloader.properties" {
+component Settings controlledby SettingsController styledwith["style.css"] resourcefile "nloader.properties" {
 	VBox id th {
+		prefHeight: "452",
 		alignment: "center",
 		Label {
 			text: rstring "nloader.window.settings.title",

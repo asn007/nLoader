@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import eu.q_b.asn007.nloader.theming.ThemeLoader;
+import eu.q_b.asn007.nloader.Main;
 
 public class ModalWindow {
 
@@ -19,7 +21,7 @@ public class ModalWindow {
 		dialogStage.initModality(Modality.WINDOW_MODAL);
 		
 		Scene scene = new Scene(new VBox());
-		scene.getStylesheets().add("/metro.css");
+		scene.getStylesheets().add(ThemeLoader.getStyleSheetFromTheme(Main.theme));
 		Label titleLabel = new Label(title);
 		titleLabel.getStyleClass().add("header");
 		

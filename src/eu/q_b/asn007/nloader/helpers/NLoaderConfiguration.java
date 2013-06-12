@@ -73,4 +73,9 @@ public class NLoaderConfiguration {
 	public void setInteger(String key, Integer value) {
 		addToConfig(key, value.toString());
 	}
+
+	public void writeDefault() {
+		properties.clear();
+		setString("version", LauncherConf.launcherVersion);
+	}
 }

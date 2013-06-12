@@ -17,7 +17,10 @@ public class LauncherConf {
 	public static final String serverXMLURL = "http://minecraft.q-b.eu/mc/servers.xml";
 	
 	public static boolean isSpoutCraft = false;
-	public static String songFileName = "bg.mp3";
+	public static final String songFileName = "bg.mp3";
+	public static final String themeRoot = "http://minecraft.q-b.eu/mc/example_theme/";
+	
+	public static final boolean useOnlineTheme = true;
 	
 	public static final String nloaderConfiguration = "nLoader.conf";
 	public static final boolean useMusic = true;
@@ -27,5 +30,10 @@ public class LauncherConf {
 	
 	public static final boolean autoUpdate = true;
 	public static final String baseFileURL = "http://minecraft.q-b.eu/mc/updater/latest"; // Without ".jar" or ".exe"
+	
+	public static final int WINDOWS_BAR_HEIGHT = 28; // Just in case
+	public static final int BORDERS_WIDTH = 6;
+	public static final int SCENE_WIDTH = 299;
+	public static final int SCENE_HEIGHT = 452;
 	
 }

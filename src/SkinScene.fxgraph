@@ -6,8 +6,9 @@ import eu.q_b.asn007.nloader.*
 import eu.q_b.asn007.nloader.controllers.*
 import javafx.scene.control.*
 
-component SkinScene controlledby SkinController styledwith["metro.css"] resourcefile "nloader.properties" {
+component SkinScene controlledby SkinController styledwith["style.css"] resourcefile "nloader.properties" {
 	VBox id th {
+		prefHeight: "452",
 		alignment: "center",
 		Label {
 			styleClass: "header",
@@ -49,7 +50,7 @@ component SkinScene controlledby SkinController styledwith["metro.css"] resource
 			/* Quick-and-dirty-fix */
 			HBox {
 				prefWidth: "305",
-				prefHeight: "1"
+				prefHeight: "0"
 			}
 		}
 	}

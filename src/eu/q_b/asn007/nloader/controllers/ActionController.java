@@ -1,7 +1,6 @@
 package eu.q_b.asn007.nloader.controllers;
 
 import java.io.IOException;
-import java.net.URL;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +21,7 @@ import eu.q_b.asn007.nloader.fx.ModalWindow;
 import eu.q_b.asn007.nloader.fx.SceneUtils;
 import eu.q_b.asn007.nloader.multiclient.GameServer;
 import eu.q_b.asn007.nloader.skins.SkinLoaderThread;
+import eu.q_b.asn007.nloader.theming.ThemeLoader;
 import eu.q_b.asn007.nloader.threading.LauncherUpdaterThread;
 public class ActionController {
 
@@ -37,10 +37,9 @@ public class ActionController {
 	@FXML
 	public void openSettings(ActionEvent evt) {
 		if(!Main._instance.launcherBusy) {
-		URL uri = Main.class.getResource( "/SettingsScene.fxml" );
 		try {
-			Parent p = FXMLLoader.load( uri, Main.loc );
-			p.getStylesheets().add("/metro.css");
+			Parent p = FXMLLoader.load( ThemeLoader.getFXMLFromTheme(Main.theme, "SettingsScene"), Main.loc );
+			p.getStylesheets().add(ThemeLoader.getStyleSheetFromTheme(Main.theme));
 			SceneUtils.changeScene(500, th, p);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -89,10 +88,9 @@ public class ActionController {
 
 
 	private void doSkinScene() {
-		URL uri = Main.class.getResource( "/SkinScene.fxml" );
 		try {
-			Parent p = FXMLLoader.load(uri, Main.loc);
-			p.getStylesheets().add("/metro.css");
+			Parent p = FXMLLoader.load(ThemeLoader.getFXMLFromTheme(Main.theme, "SkinScene"), Main.loc);
+			p.getStylesheets().add(ThemeLoader.getStyleSheetFromTheme(Main.theme));
 			SceneUtils.changeScene(500, th, p);
 			new SkinLoaderThread(Main.login).start();
 		} catch (IOException e) {

@@ -8,6 +8,7 @@ import eu.q_b.asn007.nloader.Main;
 import eu.q_b.asn007.nloader.BaseProcedures;
 import eu.q_b.asn007.nloader.LauncherConf;
 import eu.q_b.asn007.nloader.multiclient.*;
+import eu.q_b.asn007.nloader.xml.*;
 import eu.q_b.asn007.nloader.controllers.ActionController;
 
 public class InitBackgroundWorkerThread extends Thread {
@@ -28,9 +29,8 @@ public class InitBackgroundWorkerThread extends Thread {
 		File serversXML = new File(BaseProcedures.getWorkingDirectory() + File.separator + "nloader-servers.xml");
 		try {
 			BaseProcedures.download(BaseProcedures.toURL(LauncherConf.serverXMLURL), serversXML);
-			GameServerXMLParser parser = new GameServerXMLParser();
-			parser.parseXML(serversXML);
-			Main._instance.servers = parser.parseDocument("server");
+			XMLParser parser = new XMLParser(serversXML);
+			Main._instance.servers = GameServerLoader.getServers("server", parser);
 			Platform.runLater(new Runnable(){
 				public void run() {
 					ActionController.servers.getItems().remove(Main._instance.ls);

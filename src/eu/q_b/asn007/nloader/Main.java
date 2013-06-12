@@ -19,6 +19,8 @@ import eu.q_b.asn007.nloader.helpers.NLoaderConfiguration;
 import eu.q_b.asn007.nloader.minecraft.Launcher;
 import eu.q_b.asn007.nloader.multiclient.GameServer;
 import eu.q_b.asn007.nloader.multiclient.LoadingServer;
+import eu.q_b.asn007.nloader.theming.Theme;
+import eu.q_b.asn007.nloader.theming.ThemeLoader;
 import eu.q_b.asn007.nloader.threading.InitBackgroundWorkerThread;
 
 public class Main extends Application {
@@ -47,6 +49,9 @@ public class Main extends Application {
 	
 	public MediaPlayer player;
 	public boolean playing = false;
+	private boolean innerTheme = true;
+	
+	public static Theme theme;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -56,19 +61,31 @@ public class Main extends Application {
 		
 		_instance = this;
 		config = new NLoaderConfiguration(new File(BaseProcedures.getWorkingDirectory() + File.separator + LauncherConf.nloaderConfiguration));
-		URL    uri = Main.class.getResource( "/MainScene.fxml" );
+		if(!config.getString("version").equals(LauncherConf.launcherVersion)) {
+			BaseProcedures.log("Found configuration file for an old launcher! Wiping configuration and reloading...", getClass());
+			config.writeDefault();
+		}
 		try {
+			initThemingSystem();
+		} catch(Exception e) {
+			e.printStackTrace();
+			BaseProcedures.log("Failed to load online theme, using local one!", getClass());
+			innerTheme = true;
+		}
+		try {
+			//URL uri = Main.class.getResource("/MainScene.fxml");
 			BaseProcedures.log("Loading scene FXML...", Main.class);
-			Parent p   = FXMLLoader.load(uri, loc);
+			Parent p   = FXMLLoader.load(ThemeLoader.getFXMLFromTheme(theme, "MainScene"), loc);
 			BaseProcedures.log("Adding stylesheets...", Main.class);
-			p.getStylesheets().add("/metro.css");
+			p.getStylesheets().add(ThemeLoader.getStyleSheetFromTheme(theme));
 			BaseProcedures.log("Setting up stage...", Main.class);
 			primaryStage.setScene(new Scene(p));
 			primaryStage.setWidth(305);
-			primaryStage.setHeight(480);
+			primaryStage.setHeight(LauncherConf.SCENE_HEIGHT + LauncherConf.WINDOWS_BAR_HEIGHT);
 			primaryStage.setResizable(false);
 			primaryStage.setTitle(loc.getString("nloader.window.main.title"));
-			primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/eu/q_b/asn007/nloader/res/images/icon.png")));
+			if(theme == null) primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/eu/q_b/asn007/nloader/res/images/icon.png")));
+			else primaryStage.getIcons().add(theme.THEME_ICON);
 			ActionController.loginField.setText(config.getString("login"));
 			ActionController.passField.setText(config.getString("pass"));
 			ActionController.rememberMe.setSelected(!config.getString("login").equals("")); 
@@ -94,8 +111,58 @@ public class Main extends Application {
 		this.primaryStage = primaryStage;
 	}
 
+	private void initThemingSystem() throws Exception {
+		if(LauncherConf.useOnlineTheme) {
+				BaseProcedures.log("Looking for a theme.xml...", getClass());
+				if(!config.getString("theme").equals("") && !config.getString("theme").equals("default")) {
+					File themeXML = new File(ThemeLoader.getDirectoryForTheme(config.getString("theme")) + File.separator + "theme.xml");
+					if(!themeXML.exists())
+						downloadThemeXML();
+					else if(BaseProcedures.getContentLength(LauncherConf.themeRoot + "theme.xml") != themeXML.length())
+						downloadThemeXML();
+				} else {
+					downloadThemeXML();
+				}
+
+		} else config.setString("theme", "default");
+		loadTheme(config.getString("theme"));
+	}
+
+	private String downloadThemeXML() {
+		String s = BaseProcedures.runGET(LauncherConf.themeRoot + "theme.xml", "");
+		if(s != null && !s.equals("")) {
+			String name = ThemeLoader.getThemeName(s);
+			BaseProcedures.writeString(s, new File(ThemeLoader.getDirectoryForTheme(name) + File.separator + "theme.xml"));
+			config.setString("theme", name);
+			return name;
+		} else {
+			BaseProcedures.log("Failed to locate theme.xml! Rolling back to default theme...", getClass());
+			config.setString("theme", "default");
+			return "unknown";
+		}
+	}
+
+	private void loadTheme(String thm) {
+		if(thm.equals("default")) {
+			innerTheme = true;
+			BaseProcedures.log("No external theme found, so using an inner theme", getClass());
+		} else {
+			innerTheme = false;
+			BaseProcedures.log("Loading theme named " + thm, getClass());
+			theme = ThemeLoader.loadTheme(ThemeLoader.getDirectoryForTheme(thm));
+		}
+	}
+
 	public static void main(String[] args) {
 		BaseProcedures.log("*** nLoader ***", Main.class);
 		launch(args);
+	}
+
+	public boolean isInnerTheme() {
+		return innerTheme;
+	}
+
+	public void setInnerTheme(boolean innerTheme) {
+		this.innerTheme = innerTheme;
 	}
 }

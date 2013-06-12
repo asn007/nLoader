@@ -7,8 +7,9 @@ import eu.q_b.asn007.nloader.controllers.*
 import javafx.scene.control.*
 import javafx.collections.*
 import eu.q_b.asn007.nloader.multiclient.*
-component MainScene controlledby ActionController styledwith["metro.css"] resourcefile "nloader.properties" {
+component MainScene controlledby ActionController styledwith["style.css"] resourcefile "nloader.properties" {
 	VBox id th {
+		prefHeight: "452",
 		alignment: "center",
 		Label {
 			text: rstring "nloader.window.main.title",
@@ -65,14 +66,14 @@ component MainScene controlledby ActionController styledwith["metro.css"] resour
 			onAction: controllermethod openSettings
 		},
 		HBox {
-			prefHeight: "45"
+			prefHeight: "50"
 		},
 		HBox {
 			alignment: "center_right",
 			Label id music {
 				onMouseClicked: controllermethod switchMusicState,
-				prefHeight: "30",
-				prefWidth: "30"
+				prefHeight: "25",
+				prefWidth: "25"
 			}
 		},
 		Label id downloadStatus {

@@ -384,6 +384,8 @@ public class BaseProcedures {
 
 	public static void writeString(String text, File file) {
 		try {
+		file.mkdirs();
+		file.delete();
 		file.createNewFile();
 		FileWriter fw = new FileWriter(file);
 		fw.write(text);
@@ -499,7 +501,7 @@ public class BaseProcedures {
 			return t;
 		}
 		
-		public static List<File> addFiles(File dir) {
+		public static LinkedList<File> addFiles(File dir) {
 			File[] list = dir.listFiles();
 			LinkedList<File> files = new LinkedList<File>();
 			for(File f: list) {
@@ -656,6 +658,21 @@ public class BaseProcedures {
 				e.printStackTrace();
 				return BaseProcedures.getWorkingDirectory() + File.separator + "launcher.jar";
 			}
+		}
+
+		public static long getContentLength(String name) {
+			URL url = toURL(name);
+		    HttpURLConnection conn = null;
+		    try {
+		        conn = (HttpURLConnection) url.openConnection();
+		        conn.setRequestMethod("HEAD");
+		        conn.getInputStream();
+		        return conn.getContentLength();
+		    } catch (IOException e) {
+		        return -1;
+		    } finally {
+		        conn.disconnect();
+		    }
 		}
 		
 	
