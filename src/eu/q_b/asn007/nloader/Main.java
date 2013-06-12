@@ -85,7 +85,7 @@ public class Main extends Application {
 				primaryStage.setHeight(LauncherConf.SCENE_HEIGHT + LauncherConf.WINDOWS_BAR_HEIGHT);
 			} else {
 				primaryStage.setHeight(LauncherConf.WINDOWS_BAR_HEIGHT + theme.SCENE_HEIGHT);
-				primaryStage.setHeight(LauncherConf.BORDERS_WIDTH + theme.SCENE_WIDTH);
+				primaryStage.setWidth(LauncherConf.BORDERS_WIDTH + theme.SCENE_WIDTH);
 			}
 			primaryStage.setResizable(false);
 			primaryStage.setTitle(loc.getString("nloader.window.main.title"));
