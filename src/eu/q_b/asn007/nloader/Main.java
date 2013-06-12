@@ -80,8 +80,13 @@ public class Main extends Application {
 			p.getStylesheets().add(ThemeLoader.getStyleSheetFromTheme(theme));
 			BaseProcedures.log("Setting up stage...", Main.class);
 			primaryStage.setScene(new Scene(p));
-			primaryStage.setWidth(305);
-			primaryStage.setHeight(LauncherConf.SCENE_HEIGHT + LauncherConf.WINDOWS_BAR_HEIGHT);
+			if(innerTheme) {
+				primaryStage.setWidth(LauncherConf.SCENE_WIDTH + LauncherConf.BORDERS_WIDTH);
+				primaryStage.setHeight(LauncherConf.SCENE_HEIGHT + LauncherConf.WINDOWS_BAR_HEIGHT);
+			} else {
+				primaryStage.setHeight(LauncherConf.WINDOWS_BAR_HEIGHT + theme.SCENE_HEIGHT);
+				primaryStage.setHeight(LauncherConf.BORDERS_WIDTH + theme.SCENE_WIDTH);
+			}
 			primaryStage.setResizable(false);
 			primaryStage.setTitle(loc.getString("nloader.window.main.title"));
 			if(theme == null) primaryStage.getIcons().add(new Image(Main.class.getResourceAsStream("/eu/q_b/asn007/nloader/res/images/icon.png")));
