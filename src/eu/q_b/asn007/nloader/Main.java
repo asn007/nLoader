@@ -55,12 +55,34 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
-		BaseProcedures.log("Initializing...", Main.class);
-		System.setProperty("minecraft.applet.WrapperClass",
-				Launcher.class.getCanonicalName()); // Fuck Forge
-		
 		_instance = this;
 		config = new NLoaderConfiguration(new File(BaseProcedures.getWorkingDirectory() + File.separator + LauncherConf.nloaderConfiguration));
+		BaseProcedures.log("*** nLoader ***", Main.class);
+		if(LauncherConf.minecraftLaunchType != LaunchType.COMMAND) {
+			BaseProcedures.log("Checking for memory conditions, available " + BaseProcedures.toMegabytes(Runtime.getRuntime().totalMemory()) + "MB of memory...", getClass());
+			int mem = config.getInteger("memory", 1024);
+			long curMem = BaseProcedures.toMegabytes(Runtime.getRuntime().totalMemory());
+			if(mem - curMem > 200 || mem - curMem < 0) {
+				BaseProcedures.log("Relaunching with correct memory...", getClass());
+				ArrayList<String> params = new ArrayList<String>();
+				params.add(BaseProcedures.getJavaExecutable());
+				params.add("-jar");
+				params.add("-Xms" + mem + "M");
+				params.add(BaseProcedures.getMyJarName());
+				ProcessBuilder pb = new ProcessBuilder(params);
+				try {
+					if(!LauncherConf.devEnv)
+						pb.start();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					BaseProcedures.log("Unable to relaunch!", getClass());
+				}
+				System.exit(0);
+			}
+		}
+        BaseProcedures.log("Initializing...", Main.class);
+		System.setProperty("minecraft.applet.WrapperClass",
+				Launcher.class.getCanonicalName()); // Fuck Forge
 		if(!config.getString("version").equals(LauncherConf.launcherVersion)) {
 			BaseProcedures.log("Found configuration file for an old launcher! Wiping configuration and reloading...", getClass());
 			config.writeDefault();
@@ -159,7 +181,6 @@ public class Main extends Application {
 	}
 
 	public static void main(String[] args) {
-		BaseProcedures.log("*** nLoader ***", Main.class);
 		launch(args);
 	}
 

@@ -477,11 +477,6 @@ public class BaseProcedures {
 			return arr;
 		}
 
-		public static boolean isSpoutCraft() {
-			return LauncherConf.isSpoutCraft;
-			
-		}
-
 		public static ArrayList<String> getDirectoriesList(GameServer gs) {
 			ArrayList<String> t = new ArrayList<String>();
 			String get = runGET(LauncherConf.downloadURL + "verifier.php", "act=dirs&client=" + gs.getServiceName());
@@ -673,6 +668,11 @@ public class BaseProcedures {
 		    } finally {
 		        conn.disconnect();
 		    }
+		}
+
+		public static long toMegabytes(long maxMemory) {
+			// TODO Auto-generated method stub
+			return maxMemory / 1024 / 1024;
 		}
 		
 	

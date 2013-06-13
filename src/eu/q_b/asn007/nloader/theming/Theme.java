@@ -30,7 +30,6 @@ public class Theme {
 		this.THEME_ICON = icon;
 		this.THEME_DIRECTORY = ThemeLoader.getDirectoryForTheme(this);
 		THEME_FILES = BaseProcedures.addFiles(THEME_DIRECTORY);
-		
 	}
 	
 }

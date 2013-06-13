@@ -55,7 +55,6 @@ public class ClientDownloaderThread extends Thread {
 		for(String fileHashPair: fileHashPairs) {
 			String file = fileHashPair.split("<::::>")[0];
 			String hash = fileHashPair.split("<::::>")[1];
-			if(file.contains("spoutcraft"))	LauncherConf.isSpoutCraft = true;
 			if(!BaseProcedures.getMD5(new File(BaseProcedures.getWorkingDirectoryFor(gs) + File.separator + file.replace("/", File.separator))).equals(hash)) filesToGet.put(BaseProcedures.toURL(LauncherConf.downloadURL + "/clients/" + gs.getServiceName() + "/" + file), new File(BaseProcedures.getWorkingDirectoryFor(gs) + File.separator + file.replace("/", File.separator)));
 		}
 		BaseProcedures.log("Map populated, have to download " + filesToGet.size() + " files",  getClass());
