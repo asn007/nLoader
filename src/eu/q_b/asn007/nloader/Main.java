@@ -77,7 +77,8 @@ public class Main extends Application {
 					// TODO Auto-generated catch block
 					BaseProcedures.log("Unable to relaunch!", getClass());
 				}
-				System.exit(0);
+				if(!LauncherConf.devEnv)
+					System.exit(0);
 			}
 		}
         BaseProcedures.log("Initializing...", Main.class);
