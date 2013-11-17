@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ERROR | E_PARSE); // Should have fixed this earlier.
 $dir = "clients/";
 switch ($_GET['act']) {
 	case 'list':
