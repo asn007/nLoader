@@ -1,0 +1,3 @@
+[submodule "nLogger"]
+	path = nLogger
+	url = https://github.com/asn007/nLogger.git
