@@ -24,8 +24,6 @@ apply plugin: 'eclipse'
 sourceCompatibility = 1.8
 version = '0.1'
 
-allprojects {
-
     repositories {
         mavenCentral()
     }
@@ -62,13 +60,11 @@ allprojects {
     }
 
 
-}
-
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
     includeInJar group: 'com.eclipsesource.minimal-json', name: 'minimal-json', version: '0.9.2'
-    //includeInJar project(':bifrost')
+    includeInJar project(':nLogger')
 }
 
 
