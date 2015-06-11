@@ -1,20 +1,20 @@
 /*
  * Copyright (C) 2015 asn007 aka Andrey Sinitsyn <andrey.sin98@gmail.com>
  *
- *  This file (build.gradle) is part of nSquashFS.
+ *  This file (build.gradle) is part of nLoader.
  *
- *      nSquashFS is free software: you can redistribute it and/or modify
+ *      nLoader is free software: you can redistribute it and/or modify
  *      it under the terms of the GNU General Public License as published by
  *      the Free Software Foundation, either version 3 of the License, or
  *      (at your option) any later version.
  *
- *      nSquashFS is distributed in the hope that it will be useful,
+ *      nLoader is distributed in the hope that it will be useful,
  *      but WITHOUT ANY WARRANTY; without even the implied warranty of
  *      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *      GNU General Public License for more details.
  *
  *      You should have received a copy of the GNU General Public License
- *      along with nSquashFS.  If not, see <http://www.gnu.org/licenses/>.
+ *      along with nLoader.  If not, see <http://www.gnu.org/licenses/>.
  */
 
 apply plugin: 'java'
@@ -67,8 +67,7 @@ allprojects {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile group: 'com.fernsroth.easyio', name: 'easyio', version: '0.9-beta'
-    //includeInJar group: 'com.eclipsesource.minimal-json', name: 'minimal-json', version: '0.9.2'
+    includeInJar group: 'com.eclipsesource.minimal-json', name: 'minimal-json', version: '0.9.2'
     //includeInJar project(':bifrost')
     //includeInJar project(':nLogger')
 }
